@@ -28,7 +28,7 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const links = ['Services','About','Gallery','Book Now','Contact'];
+  const links = ['Services','Nails','About','Gallery','Book Now','Contact'];
 
   return (
     <nav style={{
@@ -834,6 +834,607 @@ function Footer() {
   );
 }
 
+
+/* ─── PRESS-ON NAILS SHOP ─── */
+const NAIL_PRODUCTS = [
+  {
+    id: 'floral-french',
+    name: 'Floral French Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Nude base with white French tips, each nail adorned with handcrafted 3D flowers in pastel colours. Elegant, timeless, effortless beauty.',
+    price: 'R [PRICE]',
+    tags: ['3D Art', 'French Tip', 'Floral'],
+    img: null,
+    instaSrc: 'e5ca4e283',
+  },
+  {
+    id: 'noir-classic',
+    name: 'Noir Classic Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Sleek plain black French tips. Clean, minimal & effortlessly elegant — the perfect timeless luxury look for everyday glam.',
+    price: 'R [PRICE]',
+    tags: ['French Tip', 'Minimal', 'Everyday'],
+    img: null,
+    instaSrc: '470c1cd4c',
+  },
+  {
+    id: 'royal-blue-luxe',
+    name: 'Royal Blue Luxe Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Bold royal blue V-shaped French tips finished with fine glitter sparkle and a delicate silver bow. Elegant, classy & made for a statement look.',
+    price: 'R [PRICE]',
+    tags: ['V-Shape', 'Glitter', 'Statement'],
+    img: null,
+    instaSrc: 'f4b455117',
+  },
+  {
+    id: 'blush-classic',
+    name: 'Blush Classic Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Soft plain pink nails — feminine, clean & effortlessly elegant. A timeless everyday luxury shade for soft glam girls.',
+    price: 'R [PRICE]',
+    tags: ['Solid', 'Pink', 'Everyday'],
+    img: null,
+    instaSrc: 'b9643af48',
+  },
+  {
+    id: 'sunshine-classic',
+    name: 'Sunshine Classic Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Soft plain yellow nails. Bright, clean & effortlessly chic — a simple pop of colour for everyday luxury vibes.',
+    price: 'R [PRICE]',
+    tags: ['Solid', 'Yellow', 'Chic'],
+    img: null,
+    instaSrc: 'f47af7a06',
+  },
+  {
+    id: 'sweet-bride',
+    name: 'Sweet Bride Luxury Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Soft pink & white French tips with 3D floral details. Long point elegance made for the modern bride — romantic, delicate & luxury handcrafted.',
+    price: 'R [PRICE]',
+    tags: ['Bridal', '3D Art', 'French Tip'],
+    img: null,
+    instaSrc: '0f4eff56d',
+  },
+];
+
+const SIZE_CHART = [
+  { size:'XS', thumb:'1.4cm', index:'1.0cm', middle:'1.1cm', ring:'1.0cm', pinky:'0.7cm' },
+  { size:'S',  thumb:'1.5cm', index:'1.1cm', middle:'1.2cm', ring:'1.1cm', pinky:'0.8cm' },
+  { size:'M',  thumb:'1.6cm', index:'1.2cm', middle:'1.3cm', ring:'1.2cm', pinky:'0.9cm' },
+  { size:'L',  thumb:'1.7cm', index:'1.3cm', middle:'1.4cm', ring:'1.3cm', pinky:'1.0cm' },
+];
+
+const FINGERS = ['Thumb','Index','Middle','Ring','Pinky'];
+
+function SizeGuide({ onClose }) {
+  return (
+    <div style={{
+      position:'fixed', inset:0, zIndex:200,
+      background:'rgba(0,0,0,0.88)', backdropFilter:'blur(10px)',
+      display:'flex', alignItems:'center', justifyContent:'center',
+      padding:'20px',
+    }} onClick={onClose}>
+      <div style={{
+        background:'linear-gradient(160deg,#1a120e,#110d0a)',
+        border:'1px solid rgba(196,149,106,0.3)',
+        maxWidth:680, width:'100%', padding:'clamp(28px,4vw,48px)',
+        position:'relative', maxHeight:'90vh', overflowY:'auto',
+      }} onClick={e => e.stopPropagation()}>
+        <div style={{ position:'absolute', top:0, left:0, right:0, height:1,
+          background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.5),transparent)' }} />
+        <button onClick={onClose} style={{
+          position:'absolute', top:16, right:16,
+          background:'none', border:'none', cursor:'pointer',
+          color:'rgba(196,149,106,0.6)', fontSize:'1.2rem',
+        }}>✕</button>
+
+        <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem',
+          letterSpacing:'0.3em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', marginBottom:10 }}>
+          How to Order
+        </p>
+        <h3 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.4rem,4vw,2rem)',
+          ...roseText, marginBottom:6 }}>Nail Size Guide</h3>
+
+        <div style={{ margin:'20px 0', padding:'16px 20px',
+          background:'rgba(196,149,106,0.05)', border:'1px solid rgba(196,149,106,0.12)' }}>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:500, fontSize:'0.65rem',
+            letterSpacing:'0.2em', color:'rgba(196,149,106,0.7)', textTransform:'uppercase', marginBottom:8 }}>
+            Tape Measurement Method
+          </p>
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'1rem',
+            color:'rgba(240,230,220,0.75)', lineHeight:1.7 }}>
+            Use a tape measure and press it closely to the curvature of your nail surface. 
+            Measure the widest point from the left nail groove to the right nail groove to get your size.
+          </p>
+        </div>
+
+        <div style={{ margin:'12px 0 24px', padding:'16px 20px',
+          background:'rgba(196,149,106,0.05)', border:'1px solid rgba(196,149,106,0.12)' }}>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:500, fontSize:'0.65rem',
+            letterSpacing:'0.2em', color:'rgba(196,149,106,0.7)', textTransform:'uppercase', marginBottom:8 }}>
+            Paper Strip Method
+          </p>
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'1rem',
+            color:'rgba(240,230,220,0.75)', lineHeight:1.7 }}>
+            Wrap a paper strip tightly around the widest point of your nail, mark the left and right grooves, 
+            then measure the marked length with a ruler to determine your size.
+          </p>
+        </div>
+
+        <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.9rem',
+          color:'rgba(240,230,220,0.5)', marginBottom:24 }}>
+          Any measurement within 1mm of a standard size can wear that size comfortably.
+        </p>
+
+        {/* Size chart table */}
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ width:'100%', borderCollapse:'collapse', fontFamily:'Cormorant Garamond,serif' }}>
+            <thead>
+              <tr>
+                {['Size',...FINGERS].map(h => (
+                  <th key={h} style={{
+                    padding:'10px 12px', textAlign:'center',
+                    fontFamily:'Montserrat,sans-serif', fontWeight:500, fontSize:'0.58rem',
+                    letterSpacing:'0.15em', color:'rgba(196,149,106,0.7)', textTransform:'uppercase',
+                    borderBottom:'1px solid rgba(196,149,106,0.2)',
+                  }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {SIZE_CHART.map((row, i) => (
+                <tr key={row.size} style={{ background: i%2===0 ? 'rgba(196,149,106,0.03)' : 'transparent' }}>
+                  <td style={{ padding:'10px 12px', textAlign:'center',
+                    fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.75rem',
+                    color:'#C4956A', letterSpacing:'0.15em' }}>{row.size}</td>
+                  {[row.thumb,row.index,row.middle,row.ring,row.pinky].map((v,j) => (
+                    <td key={j} style={{ padding:'10px 12px', textAlign:'center',
+                      fontSize:'0.9rem', color:'rgba(240,230,220,0.7)',
+                      borderBottom:'1px solid rgba(196,149,106,0.06)' }}>{v}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OrderModal({ product, onClose }) {
+  const [step, setStep] = useState(1);
+  const [sizes, setSizes] = useState({ thumb:'', index:'', middle:'', ring:'', pinky:'' });
+  const [info, setInfo] = useState({ name:'', email:'', phone:'', address:'', notes:'' });
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const sizeOpts = ['XS','S','M','L'];
+  const fingerKeys = ['thumb','index','middle','ring','pinky'];
+
+  const allSizesSelected = fingerKeys.every(k => sizes[k]);
+
+  const handleOrder = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    // Build WhatsApp message
+    const sizeStr = fingerKeys.map(k => `${k.charAt(0).toUpperCase()+k.slice(1)}: ${sizes[k]}`).join(', ');
+    const msg = encodeURIComponent(
+      `*New Order — Maison De Luxe Nails*\n\n` +
+      `*Set:* ${product.name}\n` +
+      `*Price:* ${product.price}\n\n` +
+      `*Nail Sizes:*\n${sizeStr}\n\n` +
+      `*Name:* ${info.name}\n` +
+      `*Email:* ${info.email}\n` +
+      `*Phone:* ${info.phone}\n` +
+      `*Address:* ${info.address}\n` +
+      `*Notes:* ${info.notes || 'None'}\n\n` +
+      `*Delivery:* R109.99 nationwide`
+    );
+    // Open WhatsApp (number TBC)
+    const waUrl = `https://wa.me/27000000000?text=${msg}`;
+    await new Promise(r => setTimeout(r, 800));
+    setSending(false);
+    setSent(true);
+    window.open(waUrl, '_blank');
+  };
+
+  const inputStyle = {
+    width:'100%', padding:'12px 16px',
+    background:'rgba(26,18,14,0.7)',
+    border:'1px solid rgba(196,149,106,0.2)',
+    color:'var(--text)', fontFamily:'Cormorant Garamond,serif', fontSize:'1rem',
+    outline:'none', transition:'border-color 0.3s',
+  };
+
+  return (
+    <div style={{
+      position:'fixed', inset:0, zIndex:200,
+      background:'rgba(0,0,0,0.9)', backdropFilter:'blur(12px)',
+      display:'flex', alignItems:'center', justifyContent:'center',
+      padding:'20px', overflowY:'auto',
+    }} onClick={onClose}>
+      <div style={{
+        background:'linear-gradient(160deg,#1a120e,#110d0a)',
+        border:'1px solid rgba(196,149,106,0.3)',
+        maxWidth:560, width:'100%', padding:'clamp(24px,4vw,44px)',
+        position:'relative', maxHeight:'92vh', overflowY:'auto',
+      }} onClick={e => e.stopPropagation()}>
+        <div style={{ position:'absolute', top:0, left:0, right:0, height:1,
+          background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.5),transparent)' }} />
+        <button onClick={onClose} style={{
+          position:'absolute', top:16, right:16,
+          background:'none', border:'none', cursor:'pointer',
+          color:'rgba(196,149,106,0.6)', fontSize:'1.2rem',
+        }}>✕</button>
+
+        <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.6rem',
+          letterSpacing:'0.25em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', marginBottom:6 }}>
+          Order
+        </p>
+        <h3 style={{ fontFamily:'Cinzel,serif', fontSize:'1.3rem', ...roseText, marginBottom:4 }}>{product.name}</h3>
+        <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+          fontSize:'0.95rem', color:'rgba(240,230,220,0.5)', marginBottom:20 }}>{product.price} + R109.99 delivery</p>
+
+        {/* Step indicator */}
+        <div style={{ display:'flex', gap:8, marginBottom:28 }}>
+          {['Nail Sizes','Your Details','Confirm'].map((s,i) => (
+            <div key={s} style={{ flex:1, textAlign:'center' }}>
+              <div style={{
+                height:2, marginBottom:6,
+                background: step > i+1 ? roseGrad : step === i+1 ? roseGrad : 'rgba(196,149,106,0.15)',
+              }} />
+              <span style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem',
+                letterSpacing:'0.15em', textTransform:'uppercase',
+                color: step === i+1 ? 'rgba(196,149,106,0.8)' : 'rgba(196,149,106,0.3)' }}>{s}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Step 1: Sizes */}
+        {step === 1 && (
+          <div>
+            <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+              fontSize:'0.95rem', color:'rgba(240,230,220,0.6)', marginBottom:24, lineHeight:1.6 }}>
+              Select your nail size for each finger. Not sure of your size? Check our size guide below.
+            </p>
+            <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
+              {fingerKeys.map(finger => (
+                <div key={finger}>
+                  <label style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.6rem',
+                    letterSpacing:'0.2em', color:'rgba(196,149,106,0.55)', textTransform:'uppercase',
+                    display:'block', marginBottom:10 }}>{finger} finger</label>
+                  <div style={{ display:'flex', gap:10 }}>
+                    {sizeOpts.map(sz => (
+                      <button key={sz} onClick={() => setSizes({...sizes, [finger]:sz})} style={{
+                        flex:1, padding:'10px 0',
+                        background: sizes[finger] === sz ? roseGrad : 'rgba(26,18,14,0.8)',
+                        border: sizes[finger] === sz ? '1px solid rgba(196,149,106,0.6)' : '1px solid rgba(196,149,106,0.2)',
+                        color: sizes[finger] === sz ? '#1a0a00' : 'rgba(240,230,220,0.6)',
+                        fontFamily:'Montserrat,sans-serif', fontWeight: sizes[finger] === sz ? 700 : 300,
+                        fontSize:'0.72rem', letterSpacing:'0.15em',
+                        cursor:'pointer', transition:'all 0.2s',
+                      }}>{sz}</button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => setStep(2)} disabled={!allSizesSelected} style={{
+              marginTop:28, width:'100%', padding:'14px',
+              background: allSizesSelected ? roseGrad : 'rgba(196,149,106,0.15)',
+              color: allSizesSelected ? '#1a0a00' : 'rgba(196,149,106,0.3)',
+              fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.68rem',
+              letterSpacing:'0.22em', textTransform:'uppercase',
+              border:'none', cursor: allSizesSelected ? 'pointer' : 'not-allowed',
+              transition:'all 0.3s',
+            }}>NEXT — Your Details</button>
+          </div>
+        )}
+
+        {/* Step 2: Details */}
+        {step === 2 && (
+          <form onSubmit={e => { e.preventDefault(); setStep(3); }}>
+            <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+              <div>
+                <label style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem',
+                  letterSpacing:'0.2em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', display:'block', marginBottom:7 }}>Full Name</label>
+                <input style={inputStyle} placeholder="Your full name" value={info.name}
+                  onChange={e => setInfo({...info, name:e.target.value})} required
+                  onFocus={e => e.target.style.borderColor='rgba(196,149,106,0.5)'}
+                  onBlur={e => e.target.style.borderColor='rgba(196,149,106,0.2)'} />
+              </div>
+              <div>
+                <label style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem',
+                  letterSpacing:'0.2em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', display:'block', marginBottom:7 }}>Email Address</label>
+                <input type="email" style={inputStyle} placeholder="your@email.com" value={info.email}
+                  onChange={e => setInfo({...info, email:e.target.value})} required
+                  onFocus={e => e.target.style.borderColor='rgba(196,149,106,0.5)'}
+                  onBlur={e => e.target.style.borderColor='rgba(196,149,106,0.2)'} />
+              </div>
+              <div>
+                <label style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem',
+                  letterSpacing:'0.2em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', display:'block', marginBottom:7 }}>Phone / WhatsApp</label>
+                <input style={inputStyle} placeholder="+27 000 000 0000" value={info.phone}
+                  onChange={e => setInfo({...info, phone:e.target.value})} required
+                  onFocus={e => e.target.style.borderColor='rgba(196,149,106,0.5)'}
+                  onBlur={e => e.target.style.borderColor='rgba(196,149,106,0.2)'} />
+              </div>
+              <div>
+                <label style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem',
+                  letterSpacing:'0.2em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', display:'block', marginBottom:7 }}>Delivery Address</label>
+                <textarea rows={3} style={{...inputStyle, resize:'vertical'}} placeholder="Full street address, suburb, city, postal code"
+                  value={info.address} onChange={e => setInfo({...info, address:e.target.value})} required
+                  onFocus={e => e.target.style.borderColor='rgba(196,149,106,0.5)'}
+                  onBlur={e => e.target.style.borderColor='rgba(196,149,106,0.2)'} />
+              </div>
+              <div>
+                <label style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem',
+                  letterSpacing:'0.2em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', display:'block', marginBottom:7 }}>Special Requests (optional)</label>
+                <input style={inputStyle} placeholder="Anything specific?" value={info.notes}
+                  onChange={e => setInfo({...info, notes:e.target.value})}
+                  onFocus={e => e.target.style.borderColor='rgba(196,149,106,0.5)'}
+                  onBlur={e => e.target.style.borderColor='rgba(196,149,106,0.2)'} />
+              </div>
+            </div>
+            <div style={{ display:'flex', gap:12, marginTop:24 }}>
+              <button type="button" onClick={() => setStep(1)} style={{
+                flex:'0 0 auto', padding:'14px 20px',
+                background:'rgba(0,0,0,0.3)', border:'1px solid rgba(196,149,106,0.2)',
+                color:'rgba(196,149,106,0.6)', fontFamily:'Montserrat,sans-serif', fontSize:'0.6rem',
+                letterSpacing:'0.15em', textTransform:'uppercase', cursor:'pointer',
+              }}>BACK</button>
+              <button type="submit" style={{
+                flex:1, padding:'14px',
+                background:roseGrad, color:'#1a0a00',
+                fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.68rem',
+                letterSpacing:'0.22em', textTransform:'uppercase',
+                border:'none', cursor:'pointer',
+              }}>REVIEW ORDER</button>
+            </div>
+          </form>
+        )}
+
+        {/* Step 3: Confirm */}
+        {step === 3 && !sent && (
+          <div>
+            <div style={{ background:'rgba(196,149,106,0.05)', border:'1px solid rgba(196,149,106,0.15)',
+              padding:'20px', marginBottom:20 }}>
+              <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:500, fontSize:'0.62rem',
+                letterSpacing:'0.2em', color:'rgba(196,149,106,0.6)', textTransform:'uppercase', marginBottom:12 }}>Order Summary</p>
+              <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
+                {[
+                  ['Set', product.name],
+                  ['Price', product.price],
+                  ['Delivery', 'R109.99'],
+                  ['Name', info.name],
+                  ['Email', info.email],
+                  ['Phone', info.phone],
+                  ['Sizes', `T:${sizes.thumb} I:${sizes.index} M:${sizes.middle} R:${sizes.ring} P:${sizes.pinky}`],
+                ].map(([k,v]) => (
+                  <div key={k} style={{ display:'flex', justifyContent:'space-between', gap:16 }}>
+                    <span style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.6rem',
+                      letterSpacing:'0.15em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase' }}>{k}</span>
+                    <span style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'0.95rem',
+                      color:'rgba(240,230,220,0.75)', textAlign:'right' }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ display:'flex', gap:12 }}>
+              <button onClick={() => setStep(2)} style={{
+                flex:'0 0 auto', padding:'14px 20px',
+                background:'rgba(0,0,0,0.3)', border:'1px solid rgba(196,149,106,0.2)',
+                color:'rgba(196,149,106,0.6)', fontFamily:'Montserrat,sans-serif', fontSize:'0.6rem',
+                letterSpacing:'0.15em', textTransform:'uppercase', cursor:'pointer',
+              }}>BACK</button>
+              <button onClick={handleOrder} disabled={sending} style={{
+                flex:1, padding:'14px',
+                background: sending ? 'rgba(196,149,106,0.3)' : roseGrad, color:'#1a0a00',
+                fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.68rem',
+                letterSpacing:'0.22em', textTransform:'uppercase',
+                border:'none', cursor: sending ? 'wait' : 'pointer',
+              }}>{sending ? 'Processing...' : 'PLACE ORDER'}</button>
+            </div>
+          </div>
+        )}
+
+        {/* Sent */}
+        {sent && (
+          <div style={{ textAlign:'center', padding:'20px 0' }}>
+            <span style={{ fontSize:'2rem', color:'rgba(196,149,106,0.7)', display:'block', marginBottom:16 }}>◆</span>
+            <h3 style={{ fontFamily:'Cinzel,serif', fontSize:'1.3rem', ...roseText, marginBottom:12 }}>Order Sent!</h3>
+            <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+              fontSize:'1rem', color:'var(--text-muted)', lineHeight:1.7, marginBottom:20 }}>
+              Your order has been sent to WhatsApp. We will confirm your order and payment details shortly.
+            </p>
+            <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'0.9rem',
+              color:'rgba(240,230,220,0.45)' }}>Luxury. Elegance. Confidence. Every Set. ✦</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function NailsShop() {
+  const ref = useRef(null);
+  const [showGuide, setShowGuide] = useState(false);
+  const [ordering, setOrdering] = useState(null);
+
+  useEffect(() => {
+    if (!window.gsap || !window.ScrollTrigger) return;
+    window.gsap.registerPlugin(window.ScrollTrigger);
+    const cards = ref.current?.querySelectorAll('.nail-card');
+    cards?.forEach((c,i) => {
+      window.gsap.fromTo(c, { opacity:0, y:36 }, {
+        opacity:1, y:0, duration:0.65, delay:i*0.1,
+        scrollTrigger:{ trigger:c, start:'top 90%' }
+      });
+    });
+  }, []);
+
+  return (
+    <section id="nails" ref={ref} style={{
+      padding:'100px clamp(20px,6vw,80px)',
+      background:'linear-gradient(160deg,#0d0806 0%,var(--black) 100%)',
+    }}>
+      {showGuide && <SizeGuide onClose={() => setShowGuide(false)} />}
+      {ordering && <OrderModal product={ordering} onClose={() => setOrdering(null)} />}
+
+      <div style={{ maxWidth:1100, margin:'0 auto' }}>
+        {/* Header */}
+        <div style={{ textAlign:'center', marginBottom:56 }}>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem',
+            letterSpacing:'0.35em', color:'rgba(196,149,106,0.55)', marginBottom:12, textTransform:'uppercase' }}>
+            Maison De Luxe
+          </p>
+          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText }}>
+            LUXÉ Nails
+          </h2>
+          {dividerLine}
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+            fontSize:'clamp(1rem,2.2vw,1.15rem)', color:'var(--text-muted)',
+            maxWidth:580, margin:'0 auto 8px' }}>
+            Luxury handmade press-on nails. Custom sets · Reusable · High quality.
+            Made with love in South Africa · Nationwide delivery.
+          </p>
+
+          {/* What's included */}
+          <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', margin:'28px 0 0' }}>
+            {['Nail File','Liquid Nail Glue','Adhesive Tabs','Complimentary Gift','Reusable Sets'].map(i => (
+              <span key={i} style={{
+                padding:'6px 16px',
+                border:'1px solid rgba(196,149,106,0.2)',
+                fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.6rem',
+                letterSpacing:'0.15em', color:'rgba(196,149,106,0.6)', textTransform:'uppercase',
+              }}>✦ {i}</span>
+            ))}
+          </div>
+
+          {/* Size guide button */}
+          <div style={{ marginTop:20 }}>
+            <button onClick={() => setShowGuide(true)} style={{
+              background:'none', border:'1px solid rgba(196,149,106,0.25)',
+              padding:'10px 24px', cursor:'pointer',
+              fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem',
+              letterSpacing:'0.22em', color:'rgba(196,149,106,0.65)', textTransform:'uppercase',
+              transition:'all 0.3s',
+            }}
+            onMouseEnter={e => { e.target.style.borderColor='rgba(196,149,106,0.5)'; e.target.style.color='#C4956A'; }}
+            onMouseLeave={e => { e.target.style.borderColor='rgba(196,149,106,0.25)'; e.target.style.color='rgba(196,149,106,0.65)'; }}>
+              ◇ View Size Guide & Measurement Instructions
+            </button>
+          </div>
+        </div>
+
+        {/* Product Grid */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', gap:24 }}>
+          {NAIL_PRODUCTS.map((p, i) => (
+            <div key={p.id} className="nail-card" style={{
+              background:'linear-gradient(160deg,rgba(26,18,14,0.95),rgba(16,10,8,0.98))',
+              border:'1px solid rgba(196,149,106,0.12)',
+              overflow:'hidden', transition:'border-color 0.3s, transform 0.3s',
+              display:'flex', flexDirection:'column',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.35)'; e.currentTarget.style.transform='translateY(-4px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.12)'; e.currentTarget.style.transform='translateY(0)'; }}>
+
+              {/* Image placeholder — ready for real photos */}
+              <div style={{
+                aspectRatio:'4/3', background:'linear-gradient(160deg,rgba(196,149,106,0.06),rgba(139,26,26,0.04))',
+                display:'flex', alignItems:'center', justifyContent:'center',
+                borderBottom:'1px solid rgba(196,149,106,0.08)', position:'relative',
+                overflow:'hidden',
+              }}>
+                <div style={{ textAlign:'center' }}>
+                  <span style={{ fontSize:'2rem', color:'rgba(196,149,106,0.2)', display:'block', marginBottom:8 }}>◈</span>
+                  <p style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem',
+                    letterSpacing:'0.2em', color:'rgba(196,149,106,0.25)', textTransform:'uppercase' }}>
+                    Product Photo<br />Coming Soon
+                  </p>
+                </div>
+                {/* Top accent line */}
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:1,
+                  background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.25),transparent)' }} />
+              </div>
+
+              <div style={{ padding:'clamp(18px,3vw,28px)', flex:1, display:'flex', flexDirection:'column' }}>
+                {/* Tags */}
+                <div style={{ display:'flex', gap:6, flexWrap:'wrap', marginBottom:12 }}>
+                  {p.tags.map(t => (
+                    <span key={t} style={{
+                      padding:'3px 10px', border:'1px solid rgba(196,149,106,0.15)',
+                      fontFamily:'Montserrat,sans-serif', fontSize:'0.5rem',
+                      letterSpacing:'0.15em', color:'rgba(196,149,106,0.45)', textTransform:'uppercase',
+                    }}>{t}</span>
+                  ))}
+                </div>
+
+                <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem',
+                  letterSpacing:'0.2em', color:'rgba(196,149,106,0.4)', textTransform:'uppercase', marginBottom:6 }}>
+                  {p.subtitle}
+                </p>
+                <h3 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.15rem',
+                  ...roseText, marginBottom:12 }}>{p.name}</h3>
+                <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+                  fontSize:'0.95rem', color:'rgba(240,230,220,0.65)', lineHeight:1.7,
+                  flex:1, marginBottom:18 }}>{p.desc}</p>
+
+                {/* Price + CTA */}
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between',
+                  paddingTop:16, borderTop:'1px solid rgba(196,149,106,0.1)' }}>
+                  <div>
+                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.55rem',
+                      letterSpacing:'0.15em', color:'rgba(196,149,106,0.4)', textTransform:'uppercase' }}>
+                      Price
+                    </p>
+                    <p style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.1rem', ...roseText }}>
+                      {p.price}
+                    </p>
+                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.52rem',
+                      color:'rgba(196,149,106,0.3)', letterSpacing:'0.1em' }}>+ R109.99 delivery</p>
+                  </div>
+                  <button onClick={() => setOrdering(p)} style={{
+                    padding:'11px 22px',
+                    background:roseGrad, color:'#1a0a00',
+                    fontFamily:'Montserrat,sans-serif', fontWeight:600,
+                    fontSize:'0.62rem', letterSpacing:'0.2em', textTransform:'uppercase',
+                    border:'none', cursor:'pointer',
+                    boxShadow:'0 4px 20px rgba(196,149,106,0.25)',
+                    transition:'opacity 0.2s',
+                  }}>ORDER</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Instagram CTA */}
+        <div style={{ textAlign:'center', marginTop:48,
+          padding:'32px', border:'1px solid rgba(196,149,106,0.12)',
+          background:'rgba(196,149,106,0.03)' }}>
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+            fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'rgba(240,230,220,0.6)', marginBottom:16 }}>
+            See more designs and updates on our Instagram
+          </p>
+          <a href="https://instagram.com/maisondeluxe_nails" target="_blank" rel="noopener noreferrer"
+            style={{
+              fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.65rem',
+              letterSpacing:'0.22em', color:'rgba(196,149,106,0.7)',
+              textDecoration:'none', textTransform:'uppercase',
+              borderBottom:'1px solid rgba(196,149,106,0.25)', paddingBottom:2,
+            }}>
+            @maisondeluxe_nails
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── APP ─── */
 export default function App() {
   return (
@@ -841,6 +1442,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <Services />
+      <NailsShop />
       <About />
       <Gallery />
       <BookNow />
