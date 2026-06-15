@@ -28,7 +28,7 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const links = ['Services','Nails','Packages','About','Gallery','Book Now','Contact'];
+  const links = ['Services','Nails','About','Gallery','Book Now','Contact'];
 
   return (
     <nav style={{
@@ -381,189 +381,187 @@ function Services() {
   );
 }
 
-/* ─── PACKAGES ─── */
-function Packages() {
+/* --- AI CONCIERGE (LIVE CHATBOT) --- */
+function AiAssistant() {
   const ref = useRef(null);
+  const endRef = useRef(null);
+  const OPTIONS_DEFAULT = ['Shop Press-On Nails','Book a Beauty Service','Browse Jewellery','Track My Order','FAQ'];
+  const [msgs, setMsgs] = useState([{
+    from:'bot',
+    text:"Hello, gorgeous! Welcome to Maison Deluxe.\n\nI'm your personal AI concierge. What can I help you with today?",
+    options:OPTIONS_DEFAULT,
+  }]);
+  const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
+
+  const getReply = (msg) => {
+    const m = msg.toLowerCase();
+    if (m.includes('shop') || m.includes('press') || (m.includes('nail') && !m.includes('size') && !m.includes('measure')))
+      return { text:"We have 8 stunning hand-crafted nail sets — Floral French, Noir Classic, Royal Blue Luxe, Garden Florals and more.\n\nEvery set includes nail file, glue, adhesive tabs & a gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails',"What's Included in Each Set?",'Main Menu'] };
+    if (m.includes('book') || m.includes('beauty') || m.includes('appointment') || m.includes('lash') || m.includes('makeup'))
+      return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery appointment is a personalised luxury experience — crafted just for you.", options:['Book Now','View Beauty Services','Main Menu'] };
+    if (m.includes('jewel') || m.includes('browse'))
+      return { text:"Maison Deluxe Jewellery features sterling silver, gold-plated accessories and custom bespoke designs.\n\nVisit our Instagram to browse the full curated collection.", options:['Instagram Jewellery','Custom Piece Enquiry','Main Menu'] };
+    if (m.includes('track') || (m.includes('order') && m.includes('track')))
+      return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nAll nationwide orders are dispatched within 2–3 business days.", options:['Contact on WhatsApp','Place a New Order','Main Menu'] };
+    if (m.includes('faq') || m.includes('question'))
+      return { text:"Here are our most common questions — tap any to get an instant answer:", options:['How to measure my nail size?',"What's included in each set?",'Do you deliver nationwide?','How do I book?','Main Menu'] };
+    if (m.includes('measure') || m.includes('size') || m.includes('sizing'))
+      return { text:"Measuring is easy! Use a ruler across the widest part of each nail. Our sizes go from 0 (smallest) to 9 (largest).\n\nWhen between sizes, always go one size up.", options:['See Size Guide','Order a Set','Main Menu'] };
+    if ((m.includes('what') && m.includes('included')) || m.includes('kit'))
+      return { text:"Every Maison Deluxe press-on set includes:\n◆ 10–12 hand-crafted nails\n◆ Nail file\n◆ Nail glue\n◆ Adhesive tabs\n◆ A gift\n\nAll beautifully packaged.", options:['Shop Now','How to Apply','Main Menu'] };
+    if (m.includes('deliver') || m.includes('nationwide') || m.includes('shipping'))
+      return { text:"Yes! We deliver nationwide across South Africa.\n\nOrders are dispatched within 2–3 business days after payment confirmation.", options:['Place an Order','Contact on WhatsApp','Main Menu'] };
+    if ((m.includes('book') && m.includes('how')) || m.includes('how do i book'))
+      return { text:"Booking is simple — scroll to the Book Now section, fill in your details and preferred date. We'll confirm within 24 hours.", options:['Book Now','Main Menu'] };
+    if (m.includes('price') || m.includes('pricing') || m.includes('cost') || m.includes('how much'))
+      return { text:"Our nail sets range from R110 to R224 depending on the design. Beauty service pricing is available on request.", options:['Shop Nail Sets','Book Beauty','Main Menu'] };
+    if (m.includes('apply') || m.includes('how to apply'))
+      return { text:"Applying your press-ons:\n1. Clean & dry your nails\n2. Match each nail to your finger\n3. Apply glue or adhesive tab\n4. Press firmly for 10 seconds\n\nWith glue they last 1–2 weeks!", options:['Shop Now','Main Menu'] };
+    if (m.includes('whatsapp') || m.includes('contact') || m.includes('enquiry'))
+      return { text:"Message us directly on WhatsApp for orders, tracking, or any questions. We respond fast!", options:['Main Menu'] };
+    if (m.includes('main menu') || m.includes('back'))
+      return { text:"What else can I help you with?", options:OPTIONS_DEFAULT };
+    if (m.includes('instagram') || m.includes('ig'))
+      return { text:"Follow us on Instagram:\n◆ Beauty: @luxebeautyco___\n◆ Nails: @maisondeluxe_nails\n◆ Jewellery: @maisondeluxebyangel", options:['Main Menu'] };
+    return { text:"I'd love to help! Let me show you what Maison Deluxe has to offer.", options:OPTIONS_DEFAULT };
+  };
+
+  const send = (text) => {
+    if (!text.trim()) return;
+    setMsgs(p => [...p, { from:'user', text }]);
+    setInput('');
+    setTyping(true);
+    setTimeout(() => {
+      setTyping(false);
+      const reply = getReply(text);
+      setMsgs(p => [...p, { from:'bot', ...reply }]);
+    }, 900 + Math.random() * 500);
+  };
+
+  useEffect(() => { endRef.current?.scrollIntoView({ behavior:'smooth' }); }, [msgs, typing]);
   useEffect(() => {
     if (!window.gsap || !window.ScrollTrigger) return;
     window.gsap.registerPlugin(window.ScrollTrigger);
-    const cards = ref.current?.querySelectorAll('.pkg-card');
-    if (!cards) return;
-    cards.forEach((card, i) => {
-      window.gsap.fromTo(card,
-        { opacity:0, y:50 },
-        { opacity:1, y:0, duration:0.8, delay:i*0.15,
-          scrollTrigger:{ trigger:card, start:'top 88%' } });
+    window.gsap.fromTo(ref.current, { opacity:0, y:40 }, {
+      opacity:1, y:0, duration:0.9, scrollTrigger:{ trigger:ref.current, start:'top 85%' }
     });
   }, []);
 
-  const tiers = [
-    {
-      tier: 'STARTER',
-      label: 'Essential Luxury',
-      desc: 'Everything you need to launch your AI-powered presence and start capturing clients automatically.',
-      features: [
-        'AI Chatbots',
-        'AI Order Generation Systems',
-        'WhatsApp Integration',
-        'CRM Automation',
-        'Automated Ordering Systems',
-        'Inquiry Automation for All Services',
-        'AI Customer Support',
-        'AI Appointment Systems',
-        'Luxury Branding',
-      ],
-      accent: 'rgba(196,149,106,0.18)',
-      glow: 'rgba(196,149,106,0.12)',
-      popular: false,
-      elite: false,
-    },
-    {
-      tier: 'GROWTH',
-      label: 'Elevated Experience',
-      desc: 'The full client journey — from first inquiry to confirmed order — handled intelligently.',
-      features: [
-        'Advanced AI Chatbot',
-        'Preset opener with guided option menus after every response',
-        'CRM Integration & Setup',
-        'Automated Follow-Up Sequences',
-        'AI Order & Lead Qualification',
-        'Order System for Buyers',
-        'Analytics Dashboard',
-        'Order Capture System',
-      ],
-      accent: 'rgba(196,149,106,0.35)',
-      glow: 'rgba(196,149,106,0.2)',
-      popular: true,
-      elite: false,
-    },
-    {
-      tier: 'ELITE',
-      label: 'Total AI Ecosystem',
-      desc: 'The complete luxury intelligence suite — built for brands that demand the very best.',
-      features: [
-        'Full AI Ecosystem Build-Out',
-        'AI Voice Agents — realistic real-time receptionist conversations',
-        'CRM + WhatsApp Automation',
-        'Multi-Agent Team Support',
-        'Enterprise Integrations',
-        'Dedicated Support Line',
-      ],
-      accent: roseGrad,
-      glow: 'rgba(196,149,106,0.28)',
-      popular: false,
-      elite: true,
-    },
-  ];
-
   return (
-    <section id="packages" ref={ref} style={{
+    <section ref={ref} id="ai-concierge" style={{
       padding:'100px clamp(20px,6vw,80px)',
-      background:'linear-gradient(180deg,var(--black) 0%,rgba(26,14,10,0.6) 50%,var(--black) 100%)',
+      background:'linear-gradient(180deg,var(--black) 0%,rgba(26,10,6,0.5) 100%)',
     }}>
-      <div style={{ maxWidth:1140, margin:'0 auto' }}>
-        {/* Header */}
-        <div style={{ textAlign:'center', marginBottom:72 }}>
-          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem',
-            letterSpacing:'0.38em', color:'rgba(196,149,106,0.5)', marginBottom:14,
-            textTransform:'uppercase' }}>Choose Your Experience</p>
-          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600,
-            fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText, marginBottom:0 }}>
-            Our Packages
+      <div style={{ maxWidth:1100, margin:'0 auto', display:'grid',
+        gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', gap:56, alignItems:'start' }}>
+        <div>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.65rem',
+            letterSpacing:'0.38em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase', marginBottom:14 }}>
+            Always On
+          </p>
+          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.6rem,4vw,2.6rem)',
+            ...roseText, lineHeight:1.15, marginBottom:0 }}>
+            Your Personal<br />AI Concierge
           </h2>
           {dividerLine}
-          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
-            fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'var(--text-muted)',
-            maxWidth:520, margin:'0 auto' }}>
-            Three tiers of intelligent luxury — designed around your world.
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'clamp(1rem,2.2vw,1.15rem)',
+            color:'rgba(240,230,220,0.75)', lineHeight:1.85, marginBottom:28 }}>
+            Available 24/7. Shop nail sets, book appointments, browse jewellery, track orders — all through one intelligent assistant built for luxury.
           </p>
+          <div style={{ display:'flex', flexDirection:'column', gap:13 }}>
+            {[
+              'Guided options after every single response',
+              'Order capture & AI lead qualification',
+              'WhatsApp & CRM integrated',
+              'AI appointment booking & automated reminders',
+              'Automated follow-ups',
+              'Inquiry automation for all services',
+              'AI customer support — 24/7',
+            ].map((t, i) => (
+              <div key={i} style={{ display:'flex', gap:12, alignItems:'flex-start' }}>
+                <span style={{ color:'rgba(196,149,106,0.55)', fontSize:'0.45rem', marginTop:7, flexShrink:0 }}>◆</span>
+                <span style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'1rem',
+                  color:'rgba(240,230,220,0.7)', lineHeight:1.5 }}>{t}</span>
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* Cards */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',
-          gap:28, alignItems:'start' }}>
-          {tiers.map((t, i) => (
-            <div key={i} className="pkg-card" style={{
-              opacity:0, position:'relative',
-              background:'linear-gradient(160deg,rgba(22,14,10,0.95) 0%,rgba(12,8,6,0.98) 100%)',
-              border: t.elite ? '1px solid rgba(196,149,106,0.55)' : '1px solid rgba(196,149,106,0.14)',
-              padding:'clamp(28px,4vw,48px)',
-              transform: t.popular ? 'translateY(-12px)' : 'none',
-              transition:'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
-              boxShadow: t.elite ? '0 0 60px rgba(196,149,106,0.12)' : 'none',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.borderColor = 'rgba(196,149,106,0.5)';
-              e.currentTarget.style.boxShadow = `0 20px 60px ${t.glow}`;
-              e.currentTarget.style.transform = t.popular ? 'translateY(-18px)' : 'translateY(-6px)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.borderColor = t.elite ? 'rgba(196,149,106,0.55)' : 'rgba(196,149,106,0.14)';
-              e.currentTarget.style.boxShadow = t.elite ? '0 0 60px rgba(196,149,106,0.12)' : 'none';
-              e.currentTarget.style.transform = t.popular ? 'translateY(-12px)' : 'none';
-            }}>
-              {/* Top accent line */}
-              <div style={{ position:'absolute', top:0, left:0, right:0, height:2,
-                background: t.elite ? roseGrad : 'linear-gradient(90deg,transparent,rgba(196,149,106,0.4),transparent)' }} />
-
-              {/* Popular badge */}
-              {t.popular && (
-                <div style={{ position:'absolute', top:18, right:18,
-                  background:roseGrad, padding:'4px 14px',
-                  fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem',
-                  fontWeight:600, letterSpacing:'0.18em',
-                  color:'#1a0a00', textTransform:'uppercase' }}>
-                  MOST POPULAR
-                </div>
-              )}
-
-              {/* Tier label */}
-              <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.6rem',
-                letterSpacing:'0.38em', color:'rgba(196,149,106,0.45)',
-                textTransform:'uppercase', marginBottom:8 }}>Package</p>
-              <h3 style={{ fontFamily:'Cinzel,serif', fontWeight:700,
-                fontSize:'clamp(1.3rem,3vw,1.7rem)', ...roseText, marginBottom:4 }}>{t.tier}</h3>
-              <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
-                fontSize:'1rem', color:'rgba(196,149,106,0.6)', marginBottom:18 }}>{t.label}</p>
-
-              {dividerLine}
-
-              <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'0.95rem',
-                color:'rgba(240,230,220,0.6)', lineHeight:1.75, marginBottom:24 }}>{t.desc}</p>
-
-              {/* Features */}
-              <ul style={{ listStyle:'none', marginBottom:36, display:'flex', flexDirection:'column', gap:11 }}>
-                {t.features.map((f, j) => (
-                  <li key={j} style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
-                    <span style={{ color:'rgba(196,149,106,0.55)', fontSize:'0.45rem',
-                      marginTop:6, flexShrink:0 }}>◆</span>
-                    <span style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'1rem',
-                      color:'rgba(240,230,220,0.8)', lineHeight:1.5 }}>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* CTA */}
-              <a href="#book-now" style={{
-                display:'block', width:'100%', padding:'14px 0', textAlign:'center',
-                background: t.elite ? roseGrad : 'transparent',
-                border:'1px solid rgba(196,149,106,0.45)',
-                color: t.elite ? '#1a0a00' : '#C4956A',
-                fontFamily:'Montserrat,sans-serif', fontWeight:600,
-                fontSize:'0.68rem', letterSpacing:'0.22em', textDecoration:'none',
-                textTransform:'uppercase', boxSizing:'border-box',
-                transition:'background 0.3s, color 0.3s',
-              }}
-              onMouseEnter={e => {
-                if(!t.elite){ e.currentTarget.style.background=roseGrad; e.currentTarget.style.color='#1a0a00'; }
-              }}
-              onMouseLeave={e => {
-                if(!t.elite){ e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#C4956A'; }
-              }}>
-                {t.elite ? 'GO ELITE' : t.popular ? 'SCALE NOW' : 'GET STARTED'}
-              </a>
+        <div style={{ border:'1px solid rgba(196,149,106,0.25)', borderRadius:16, overflow:'hidden',
+          background:'rgba(10,6,4,0.97)', boxShadow:'0 20px 60px rgba(196,149,106,0.08)' }}>
+          <div style={{ padding:'13px 18px', background:'rgba(22,12,8,0.95)',
+            borderBottom:'1px solid rgba(196,149,106,0.14)',
+            display:'flex', alignItems:'center', gap:12 }}>
+            <div style={{ position:'relative' }}>
+              <img src="/logo.jpg" alt="MD" style={{ width:36, height:36, borderRadius:'50%',
+                objectFit:'cover', border:'1px solid rgba(196,149,106,0.4)' }} />
+              <div style={{ position:'absolute', bottom:1, right:1, width:9, height:9, borderRadius:'50%',
+                background:'#22c55e', border:'1.5px solid #0a0602', animation:'greenPulse 2s ease infinite' }} />
             </div>
-          ))}
+            <div>
+              <p style={{ fontFamily:'Cinzel,serif', fontSize:'0.9rem', ...roseText, fontWeight:600 }}>Maison AI</p>
+              <p style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.56rem', color:'#22c55e', letterSpacing:'0.1em' }}>Online · Always available</p>
+            </div>
+          </div>
+          <div style={{ padding:14, maxHeight:320, overflowY:'auto', display:'flex', flexDirection:'column', gap:10 }}>
+            {msgs.map((m, i) => (
+              <div key={i}>
+                <div style={{ display:'flex', justifyContent:m.from==='user'?'flex-end':'flex-start' }}>
+                  <div style={{
+                    padding:'10px 14px', maxWidth:'86%', lineHeight:1.6, whiteSpace:'pre-line',
+                    fontFamily:'Cormorant Garamond,serif', fontSize:'0.95rem',
+                    borderRadius: m.from==='user' ? '14px 14px 2px 14px' : '14px 14px 14px 2px',
+                    background: m.from==='user'
+                      ? 'linear-gradient(135deg,rgba(196,149,106,0.3),rgba(196,149,106,0.15))'
+                      : 'rgba(26,14,10,0.95)',
+                    border: m.from==='bot' ? '1px solid rgba(196,149,106,0.1)' : 'none',
+                    color:'rgba(240,230,220,0.88)',
+                  }}>{m.text}</div>
+                </div>
+                {m.from==='bot' && m.options && (
+                  <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginTop:8, paddingLeft:2 }}>
+                    {m.options.map((opt, j) => (
+                      <button key={j} onClick={() => send(opt)} style={{
+                        background:'none', border:'1px solid rgba(196,149,106,0.28)',
+                        borderRadius:20, padding:'5px 13px', color:'rgba(196,149,106,0.72)',
+                        cursor:'pointer', fontFamily:'Montserrat,sans-serif', fontSize:'0.58rem',
+                        letterSpacing:'0.06em', transition:'all .2s',
+                      }}
+                      onMouseEnter={e => { e.target.style.borderColor='rgba(196,149,106,0.65)'; e.target.style.color='#C4956A'; e.target.style.background='rgba(196,149,106,0.07)'; }}
+                      onMouseLeave={e => { e.target.style.borderColor='rgba(196,149,106,0.28)'; e.target.style.color='rgba(196,149,106,0.72)'; e.target.style.background='none'; }}>
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            {typing && (
+              <div style={{ display:'flex', gap:5, padding:'10px 14px', background:'rgba(26,14,10,0.95)',
+                border:'1px solid rgba(196,149,106,0.1)', borderRadius:'14px 14px 14px 2px', width:'fit-content' }}>
+                {[0,1,2].map(i => (
+                  <span key={i} style={{ width:6, height:6, borderRadius:'50%', background:'rgba(196,149,106,0.55)',
+                    display:'block', animation:`typingDot 1s ease ${i*0.2}s infinite` }} />
+                ))}
+              </div>
+            )}
+            <div ref={endRef} />
+          </div>
+          <div style={{ padding:'10px 12px', borderTop:'1px solid rgba(196,149,106,0.09)', display:'flex', gap:8 }}>
+            <input value={input} onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key==='Enter' && send(input)}
+              placeholder="Type a message or tap an option..."
+              style={{ flex:1, background:'rgba(22,12,8,0.9)',
+                border:'1px solid rgba(196,149,106,0.14)', borderRadius:8,
+                padding:'9px 13px', color:'rgba(240,230,220,0.9)',
+                fontFamily:'Cormorant Garamond,serif', fontSize:'0.95rem', outline:'none' }} />
+            <button onClick={() => send(input)} style={{
+              background:roseGrad, border:'none', borderRadius:8,
+              padding:'9px 16px', color:'#1a0a00',
+              fontFamily:'Montserrat,sans-serif', fontSize:'0.62rem',
+              fontWeight:600, letterSpacing:'0.1em', cursor:'pointer',
+            }}>SEND</button>
+          </div>
         </div>
       </div>
     </section>
@@ -1660,7 +1658,7 @@ export default function App() {
       <Hero />
       <Services />
       <NailsShop />
-      <Packages />
+      <AiAssistant />
       <About />
       <Gallery />
       <BookNow />
