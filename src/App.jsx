@@ -907,6 +907,16 @@ const NAIL_PRODUCTS = [
     img: '/nail-garden-florals.jpg',
     instaSrc: '6cd4b390f',
   },
+  {
+    id: 'hot-pink-classic',
+    name: 'Hot Pink Classic Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Bold, vibrant hot pink in a clean glossy finish. Short square shape — effortlessly chic and full of confidence. A classic that never goes out of style.',
+    price: 'R110.00',
+    tags: ['Classic', 'Solid', 'Bold'],
+    img: '/nail-hot-pink-classic.jpg',
+    instaSrc: '83cf1a840',
+  },
 ];
 
 const SIZE_CHART = [
