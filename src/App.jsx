@@ -28,7 +28,7 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const links = ['Services','Nails','About','Gallery','Book Now','Contact'];
+  const links = ['Services','Nails','Packages','About','Gallery','Book Now','Contact'];
 
   return (
     <nav style={{
@@ -380,6 +380,196 @@ function Services() {
     </section>
   );
 }
+
+/* ─── PACKAGES ─── */
+function Packages() {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!window.gsap || !window.ScrollTrigger) return;
+    window.gsap.registerPlugin(window.ScrollTrigger);
+    const cards = ref.current?.querySelectorAll('.pkg-card');
+    if (!cards) return;
+    cards.forEach((card, i) => {
+      window.gsap.fromTo(card,
+        { opacity:0, y:50 },
+        { opacity:1, y:0, duration:0.8, delay:i*0.15,
+          scrollTrigger:{ trigger:card, start:'top 88%' } });
+    });
+  }, []);
+
+  const tiers = [
+    {
+      tier: 'STARTER',
+      label: 'Essential Luxury',
+      desc: 'Everything you need to launch your AI-powered presence and start capturing clients automatically.',
+      features: [
+        'AI Chatbots',
+        'AI Order Generation Systems',
+        'WhatsApp Integration',
+        'CRM Automation',
+        'Automated Ordering Systems',
+        'Inquiry Automation for All Services',
+        'AI Customer Support',
+        'AI Appointment Systems',
+        'Luxury Branding',
+      ],
+      accent: 'rgba(196,149,106,0.18)',
+      glow: 'rgba(196,149,106,0.12)',
+      popular: false,
+      elite: false,
+    },
+    {
+      tier: 'GROWTH',
+      label: 'Elevated Experience',
+      desc: 'The full client journey — from first inquiry to confirmed order — handled intelligently.',
+      features: [
+        'Advanced AI Chatbot',
+        'Preset opener with guided option menus after every response',
+        'CRM Integration & Setup',
+        'Automated Follow-Up Sequences',
+        'AI Order & Lead Qualification',
+        'Order System for Buyers',
+        'Analytics Dashboard',
+        'Order Capture System',
+      ],
+      accent: 'rgba(196,149,106,0.35)',
+      glow: 'rgba(196,149,106,0.2)',
+      popular: true,
+      elite: false,
+    },
+    {
+      tier: 'ELITE',
+      label: 'Total AI Ecosystem',
+      desc: 'The complete luxury intelligence suite — built for brands that demand the very best.',
+      features: [
+        'Full AI Ecosystem Build-Out',
+        'AI Voice Agents — realistic real-time receptionist conversations',
+        'CRM + WhatsApp Automation',
+        'Multi-Agent Team Support',
+        'Enterprise Integrations',
+        'Dedicated Support Line',
+      ],
+      accent: roseGrad,
+      glow: 'rgba(196,149,106,0.28)',
+      popular: false,
+      elite: true,
+    },
+  ];
+
+  return (
+    <section id="packages" ref={ref} style={{
+      padding:'100px clamp(20px,6vw,80px)',
+      background:'linear-gradient(180deg,var(--black) 0%,rgba(26,14,10,0.6) 50%,var(--black) 100%)',
+    }}>
+      <div style={{ maxWidth:1140, margin:'0 auto' }}>
+        {/* Header */}
+        <div style={{ textAlign:'center', marginBottom:72 }}>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem',
+            letterSpacing:'0.38em', color:'rgba(196,149,106,0.5)', marginBottom:14,
+            textTransform:'uppercase' }}>Choose Your Experience</p>
+          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600,
+            fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText, marginBottom:0 }}>
+            Our Packages
+          </h2>
+          {dividerLine}
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+            fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'var(--text-muted)',
+            maxWidth:520, margin:'0 auto' }}>
+            Three tiers of intelligent luxury — designed around your world.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',
+          gap:28, alignItems:'start' }}>
+          {tiers.map((t, i) => (
+            <div key={i} className="pkg-card" style={{
+              opacity:0, position:'relative',
+              background:'linear-gradient(160deg,rgba(22,14,10,0.95) 0%,rgba(12,8,6,0.98) 100%)',
+              border: t.elite ? '1px solid rgba(196,149,106,0.55)' : '1px solid rgba(196,149,106,0.14)',
+              padding:'clamp(28px,4vw,48px)',
+              transform: t.popular ? 'translateY(-12px)' : 'none',
+              transition:'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
+              boxShadow: t.elite ? '0 0 60px rgba(196,149,106,0.12)' : 'none',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = 'rgba(196,149,106,0.5)';
+              e.currentTarget.style.boxShadow = `0 20px 60px ${t.glow}`;
+              e.currentTarget.style.transform = t.popular ? 'translateY(-18px)' : 'translateY(-6px)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = t.elite ? 'rgba(196,149,106,0.55)' : 'rgba(196,149,106,0.14)';
+              e.currentTarget.style.boxShadow = t.elite ? '0 0 60px rgba(196,149,106,0.12)' : 'none';
+              e.currentTarget.style.transform = t.popular ? 'translateY(-12px)' : 'none';
+            }}>
+              {/* Top accent line */}
+              <div style={{ position:'absolute', top:0, left:0, right:0, height:2,
+                background: t.elite ? roseGrad : 'linear-gradient(90deg,transparent,rgba(196,149,106,0.4),transparent)' }} />
+
+              {/* Popular badge */}
+              {t.popular && (
+                <div style={{ position:'absolute', top:18, right:18,
+                  background:roseGrad, padding:'4px 14px',
+                  fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem',
+                  fontWeight:600, letterSpacing:'0.18em',
+                  color:'#1a0a00', textTransform:'uppercase' }}>
+                  MOST POPULAR
+                </div>
+              )}
+
+              {/* Tier label */}
+              <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.6rem',
+                letterSpacing:'0.38em', color:'rgba(196,149,106,0.45)',
+                textTransform:'uppercase', marginBottom:8 }}>Package</p>
+              <h3 style={{ fontFamily:'Cinzel,serif', fontWeight:700,
+                fontSize:'clamp(1.3rem,3vw,1.7rem)', ...roseText, marginBottom:4 }}>{t.tier}</h3>
+              <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
+                fontSize:'1rem', color:'rgba(196,149,106,0.6)', marginBottom:18 }}>{t.label}</p>
+
+              {dividerLine}
+
+              <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'0.95rem',
+                color:'rgba(240,230,220,0.6)', lineHeight:1.75, marginBottom:24 }}>{t.desc}</p>
+
+              {/* Features */}
+              <ul style={{ listStyle:'none', marginBottom:36, display:'flex', flexDirection:'column', gap:11 }}>
+                {t.features.map((f, j) => (
+                  <li key={j} style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
+                    <span style={{ color:'rgba(196,149,106,0.55)', fontSize:'0.45rem',
+                      marginTop:6, flexShrink:0 }}>◆</span>
+                    <span style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'1rem',
+                      color:'rgba(240,230,220,0.8)', lineHeight:1.5 }}>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <a href="#book-now" style={{
+                display:'block', width:'100%', padding:'14px 0', textAlign:'center',
+                background: t.elite ? roseGrad : 'transparent',
+                border:'1px solid rgba(196,149,106,0.45)',
+                color: t.elite ? '#1a0a00' : '#C4956A',
+                fontFamily:'Montserrat,sans-serif', fontWeight:600,
+                fontSize:'0.68rem', letterSpacing:'0.22em', textDecoration:'none',
+                textTransform:'uppercase', boxSizing:'border-box',
+                transition:'background 0.3s, color 0.3s',
+              }}
+              onMouseEnter={e => {
+                if(!t.elite){ e.currentTarget.style.background=roseGrad; e.currentTarget.style.color='#1a0a00'; }
+              }}
+              onMouseLeave={e => {
+                if(!t.elite){ e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#C4956A'; }
+              }}>
+                {t.elite ? 'GO ELITE' : t.popular ? 'SCALE NOW' : 'GET STARTED'}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 /* ─── ABOUT ─── */
 function About() {
@@ -1470,6 +1660,7 @@ export default function App() {
       <Hero />
       <Services />
       <NailsShop />
+      <Packages />
       <About />
       <Gallery />
       <BookNow />
