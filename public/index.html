@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" content="#FDF0F3" />
     <meta name="description" content="Maison Deluxe — Luxury Beauty, Nails & Jewellery. Elevate. Express. Empower." />
     <meta property="og:title" content="Maison Deluxe" />
     <meta property="og:description" content="Luxury Beauty, Nails & Jewellery — Elevate. Express. Empower." />
@@ -22,15 +22,21 @@
 
     <style>
       :root {
-        --rose: #C4956A;
-        --rose-light: #E8BFA0;
-        --rose-dark: #8B5E3C;
-        --crimson: #8B1A1A;
-        --black: #0a0a0a;
-        --surface: #111010;
-        --surface2: #1a1818;
-        --text: #F0E6DC;
-        --text-muted: rgba(240,230,220,0.6);
+        /* ── LIGHT PASTEL PINK / ROSE GOLD / RED THEME ── */
+        --rose:        #C9727A;
+        --rose-gold:   #C4956A;
+        --rose-light:  #F2C4C8;
+        --rose-pastel: #FAE8EB;
+        --rose-dark:   #A0444C;
+        --crimson:     #C0303A;
+        --black:       #FDF0F3;
+        --surface:     #FAE8EB;
+        --surface2:    #F5D8DC;
+        --surface3:    #EFC4CA;
+        --text:        #3D1A1E;
+        --text-muted:  rgba(61,26,30,0.58);
+        --border:      rgba(192,48,58,0.18);
+        --border-soft: rgba(196,149,106,0.25);
       }
       *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -41,24 +47,32 @@
         overflow-x: hidden;
       }
       ::-webkit-scrollbar { width: 4px; }
-      ::-webkit-scrollbar-track { background: #000; }
+      ::-webkit-scrollbar-track { background: #F5D8DC; }
       ::-webkit-scrollbar-thumb { background: var(--rose-dark); border-radius: 2px; }
 
       @keyframes fadeUp {
         from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+        to   { opacity: 1; transform: translateY(0); }
       }
       @keyframes shimmer {
-        0% { background-position: -200% center; }
-        100% { background-position: 200% center; }
+        0%   { background-position: -200% center; }
+        100% { background-position:  200% center; }
       }
       @keyframes float {
         0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-8px); }
+        50%       { transform: translateY(-8px); }
       }
       @keyframes scrollDot {
-        0% { transform: translateY(0); opacity: 1; }
+        0%   { transform: translateY(0);   opacity: 1; }
         100% { transform: translateY(12px); opacity: 0; }
+      }
+      @keyframes typing {
+        0%,100% { transform: translateY(0);   opacity: 0.4; }
+        50%      { transform: translateY(-4px); opacity: 1; }
+      }
+      @keyframes pulse {
+        0%,100% { box-shadow: 0 0 0 0   rgba(192,48,58,0.35); }
+        50%      { box-shadow: 0 0 0 8px rgba(192,48,58,0); }
       }
     </style>
   </head>
