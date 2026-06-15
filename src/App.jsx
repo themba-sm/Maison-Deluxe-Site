@@ -842,9 +842,9 @@ const NAIL_PRODUCTS = [
     name: 'Floral French Set',
     subtitle: 'LUXÉ Nails Collection',
     desc: 'Nude base with white French tips, each nail adorned with handcrafted 3D flowers in pastel colours. Elegant, timeless, effortless beauty.',
-    price: 'R [PRICE]',
+    price: 'R164.00',
     tags: ['3D Art', 'French Tip', 'Floral'],
-    img: null,
+    img: '/nail-floral-french.jpg',
     instaSrc: 'e5ca4e283',
   },
   {
@@ -852,9 +852,9 @@ const NAIL_PRODUCTS = [
     name: 'Noir Classic Set',
     subtitle: 'LUXÉ Nails Collection',
     desc: 'Sleek plain black French tips. Clean, minimal & effortlessly elegant — the perfect timeless luxury look for everyday glam.',
-    price: 'R [PRICE]',
+    price: 'R164.00',
     tags: ['French Tip', 'Minimal', 'Everyday'],
-    img: null,
+    img: '/nail-noir-classic.jpg',
     instaSrc: '470c1cd4c',
   },
   {
@@ -862,9 +862,9 @@ const NAIL_PRODUCTS = [
     name: 'Royal Blue Luxe Set',
     subtitle: 'LUXÉ Nails Collection',
     desc: 'Bold royal blue V-shaped French tips finished with fine glitter sparkle and a delicate silver bow. Elegant, classy & made for a statement look.',
-    price: 'R [PRICE]',
+    price: 'R164.00',
     tags: ['V-Shape', 'Glitter', 'Statement'],
-    img: null,
+    img: '/nail-royal-blue.jpg',
     instaSrc: 'f4b455117',
   },
   {
@@ -872,9 +872,9 @@ const NAIL_PRODUCTS = [
     name: 'Blush Classic Set',
     subtitle: 'LUXÉ Nails Collection',
     desc: 'Soft plain pink nails — feminine, clean & effortlessly elegant. A timeless everyday luxury shade for soft glam girls.',
-    price: 'R [PRICE]',
+    price: 'R164.00',
     tags: ['Solid', 'Pink', 'Everyday'],
-    img: null,
+    img: '/nail-blush-classic.jpg',
     instaSrc: 'b9643af48',
   },
   {
@@ -882,9 +882,9 @@ const NAIL_PRODUCTS = [
     name: 'Sunshine Classic Set',
     subtitle: 'LUXÉ Nails Collection',
     desc: 'Soft plain yellow nails. Bright, clean & effortlessly chic — a simple pop of colour for everyday luxury vibes.',
-    price: 'R [PRICE]',
+    price: 'R164.00',
     tags: ['Solid', 'Yellow', 'Chic'],
-    img: null,
+    img: '/nail-sunshine-classic.jpg',
     instaSrc: 'f47af7a06',
   },
   {
@@ -892,9 +892,9 @@ const NAIL_PRODUCTS = [
     name: 'Sweet Bride Luxury Set',
     subtitle: 'LUXÉ Nails Collection',
     desc: 'Soft pink & white French tips with 3D floral details. Long point elegance made for the modern bride — romantic, delicate & luxury handcrafted.',
-    price: 'R [PRICE]',
+    price: 'R164.00',
     tags: ['Bridal', '3D Art', 'French Tip'],
-    img: null,
+    img: '/nail-sweet-bride.jpg',
     instaSrc: '0f4eff56d',
   },
 ];
@@ -1342,23 +1342,30 @@ function NailsShop() {
             onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.35)'; e.currentTarget.style.transform='translateY(-4px)'; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.12)'; e.currentTarget.style.transform='translateY(0)'; }}>
 
-              {/* Image placeholder — ready for real photos */}
+              {/* Product image */}
               <div style={{
-                aspectRatio:'4/3', background:'linear-gradient(160deg,rgba(196,149,106,0.06),rgba(139,26,26,0.04))',
-                display:'flex', alignItems:'center', justifyContent:'center',
-                borderBottom:'1px solid rgba(196,149,106,0.08)', position:'relative',
-                overflow:'hidden',
+                aspectRatio:'4/3', position:'relative', overflow:'hidden',
+                borderBottom:'1px solid rgba(196,149,106,0.08)',
+                background:'#0d0806',
               }}>
-                <div style={{ textAlign:'center' }}>
-                  <span style={{ fontSize:'2rem', color:'rgba(196,149,106,0.2)', display:'block', marginBottom:8 }}>◈</span>
-                  <p style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem',
-                    letterSpacing:'0.2em', color:'rgba(196,149,106,0.25)', textTransform:'uppercase' }}>
-                    Product Photo<br />Coming Soon
-                  </p>
-                </div>
+                {p.img ? (
+                  <img src={p.img} alt={p.name} style={{
+                    width:'100%', height:'100%', objectFit:'cover', display:'block',
+                    transition:'transform 0.6s ease',
+                  }}
+                  onMouseEnter={e => e.target.style.transform='scale(1.05)'}
+                  onMouseLeave={e => e.target.style.transform='scale(1)'}
+                  />
+                ) : (
+                  <div style={{ width:'100%', height:'100%',
+                    background:'linear-gradient(160deg,rgba(196,149,106,0.06),rgba(139,26,26,0.04))',
+                    display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    <span style={{ fontSize:'2rem', color:'rgba(196,149,106,0.2)' }}>◈</span>
+                  </div>
+                )}
                 {/* Top accent line */}
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:1,
-                  background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.25),transparent)' }} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:1, zIndex:2,
+                  background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.3),transparent)' }} />
               </div>
 
               <div style={{ padding:'clamp(18px,3vw,28px)', flex:1, display:'flex', flexDirection:'column' }}>
