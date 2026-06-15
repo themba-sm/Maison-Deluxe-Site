@@ -28,7 +28,7 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const links = ['Services','Nails','About','Gallery','Book Now','Contact'];
+  const links = ['Services','Nails','About','Gallery','Order Now','Contact'];
 
   return (
     <nav style={{
@@ -223,7 +223,7 @@ function Hero() {
 
         {/* Buttons */}
         <div ref={btnsRef} style={{ opacity:0, display:'flex', gap:14, justifyContent:'center', flexWrap:'wrap' }}>
-          <a href="#book-now" style={{
+          <a href="#order-now" style={{
             padding:'clamp(12px,2vw,15px) clamp(28px,5vw,44px)',
             background:roseGrad,
             color:'#1a0a00', fontFamily:'Montserrat,sans-serif', fontWeight:600,
@@ -231,7 +231,7 @@ function Hero() {
             textDecoration:'none', textTransform:'uppercase',
             boxShadow:'0 4px 28px rgba(196,149,106,0.35)',
             border:'1px solid rgba(196,149,106,0.4)',
-          }}>BOOK NOW</a>
+          }}>ORDER NOW</a>
           <a href="#services" style={{
             padding:'clamp(12px,2vw,15px) clamp(28px,5vw,44px)',
             background:'rgba(0,0,0,0.4)',
@@ -385,7 +385,7 @@ function Services() {
 function AiAssistant() {
   const ref = useRef(null);
   const endRef = useRef(null);
-  const OPTIONS_DEFAULT = ['Shop Press-On Nails','Book a Beauty Service','Browse Jewellery','Track My Order','FAQ'];
+  const OPTIONS_DEFAULT = ['Shop Press-On Nails','Order a Beauty Service','Browse Jewellery','Track My Order','FAQ'];
   const [msgs, setMsgs] = useState([{
     from:'bot',
     text:"Hello, gorgeous! Welcome to Maison Deluxe.\n\nI'm your personal AI concierge. What can I help you with today?",
@@ -398,24 +398,24 @@ function AiAssistant() {
     const m = msg.toLowerCase();
     if (m.includes('shop') || m.includes('press') || (m.includes('nail') && !m.includes('size') && !m.includes('measure')))
       return { text:"We have 8 stunning hand-crafted nail sets — Floral French, Noir Classic, Royal Blue Luxe, Garden Florals and more.\n\nEvery set includes nail file, glue, adhesive tabs & a gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails',"What's Included in Each Set?",'Main Menu'] };
-    if (m.includes('book') || m.includes('beauty') || m.includes('appointment') || m.includes('lash') || m.includes('makeup'))
-      return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery appointment is a personalised luxury experience — crafted just for you.", options:['Book Now','View Beauty Services','Main Menu'] };
+    if (m.includes('order') || m.includes('beauty') || m.includes('appointment') || m.includes('lash') || m.includes('makeup'))
+      return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery appointment is a personalised luxury experience — crafted just for you.", options:['Order Now','View Beauty Services','Main Menu'] };
     if (m.includes('jewel') || m.includes('browse'))
       return { text:"Maison Deluxe Jewellery features sterling silver, gold-plated accessories and custom bespoke designs.\n\nVisit our Instagram to browse the full curated collection.", options:['Instagram Jewellery','Custom Piece Enquiry','Main Menu'] };
     if (m.includes('track') || (m.includes('order') && m.includes('track')))
       return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nAll nationwide orders are dispatched within 2–3 business days.", options:['Contact on WhatsApp','Place a New Order','Main Menu'] };
     if (m.includes('faq') || m.includes('question'))
-      return { text:"Here are our most common questions — tap any to get an instant answer:", options:['How to measure my nail size?',"What's included in each set?",'Do you deliver nationwide?','How do I book?','Main Menu'] };
+      return { text:"Here are our most common questions — tap any to get an instant answer:", options:['How to measure my nail size?',"What's included in each set?",'Do you deliver nationwide?','How do I order?','Main Menu'] };
     if (m.includes('measure') || m.includes('size') || m.includes('sizing'))
       return { text:"Measuring is easy! Use a ruler across the widest part of each nail. Our sizes go from 0 (smallest) to 9 (largest).\n\nWhen between sizes, always go one size up.", options:['See Size Guide','Order a Set','Main Menu'] };
     if ((m.includes('what') && m.includes('included')) || m.includes('kit'))
       return { text:"Every Maison Deluxe press-on set includes:\n◆ 10–12 hand-crafted nails\n◆ Nail file\n◆ Nail glue\n◆ Adhesive tabs\n◆ A gift\n\nAll beautifully packaged.", options:['Shop Now','How to Apply','Main Menu'] };
     if (m.includes('deliver') || m.includes('nationwide') || m.includes('shipping'))
       return { text:"Yes! We deliver nationwide across South Africa.\n\nOrders are dispatched within 2–3 business days after payment confirmation.", options:['Place an Order','Contact on WhatsApp','Main Menu'] };
-    if ((m.includes('book') && m.includes('how')) || m.includes('how do i book'))
-      return { text:"Booking is simple — scroll to the Book Now section, fill in your details and preferred date. We'll confirm within 24 hours.", options:['Book Now','Main Menu'] };
+    if ((m.includes('order') && m.includes('how')) || m.includes('how do i order'))
+      return { text:"Ordering is simple — scroll to the Order Now section, fill in your details and preferred date. We'll confirm within 24 hours.", options:['Order Now','Main Menu'] };
     if (m.includes('price') || m.includes('pricing') || m.includes('cost') || m.includes('how much'))
-      return { text:"Our nail sets range from R110 to R224 depending on the design. Beauty service pricing is available on request.", options:['Shop Nail Sets','Book Beauty','Main Menu'] };
+      return { text:"Our nail sets range from R110 to R224 depending on the design. Beauty service pricing is available on request.", options:['Shop Nail Sets','Order Beauty','Main Menu'] };
     if (m.includes('apply') || m.includes('how to apply'))
       return { text:"Applying your press-ons:\n1. Clean & dry your nails\n2. Match each nail to your finger\n3. Apply glue or adhesive tab\n4. Press firmly for 10 seconds\n\nWith glue they last 1–2 weeks!", options:['Shop Now','Main Menu'] };
     if (m.includes('whatsapp') || m.includes('contact') || m.includes('enquiry'))
@@ -467,14 +467,14 @@ function AiAssistant() {
           {dividerLine}
           <p style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'clamp(1rem,2.2vw,1.15rem)',
             color:'rgba(240,230,220,0.75)', lineHeight:1.85, marginBottom:28 }}>
-            Available 24/7. Shop nail sets, book appointments, browse jewellery, track orders — all through one intelligent assistant built for luxury.
+            Available 24/7. Shop nail sets, place appointments, browse jewellery, track orders — all through one intelligent assistant built for luxury.
           </p>
           <div style={{ display:'flex', flexDirection:'column', gap:13 }}>
             {[
               'Guided options after every single response',
               'Order capture & AI lead qualification',
               'WhatsApp & CRM integrated',
-              'AI appointment booking & automated reminders',
+              'AI appointment order & automated reminders',
               'Automated follow-ups',
               'Inquiry automation for all services',
               'AI customer support — 24/7',
@@ -749,8 +749,8 @@ function Gallery() {
   );
 }
 
-/* ─── BOOK NOW ─── */
-function BookNow() {
+/* ─── ORDER NOW ─── */
+function OrderNow() {
   const ref = useRef(null);
   const [form, setForm] = useState({ name:'', email:'', service:'', date:'', message:'' });
   const [sent, setSent] = useState(false);
@@ -783,7 +783,7 @@ function BookNow() {
   };
 
   return (
-    <section id="book-now" ref={ref} style={{
+    <section id="order-now" ref={ref} style={{
       padding:'100px clamp(20px,6vw,80px)',
       background:'linear-gradient(160deg,var(--surface) 0%,var(--black) 100%)',
     }}>
@@ -794,7 +794,7 @@ function BookNow() {
             Reserve Your Experience
           </p>
           <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText }}>
-            Book Now
+            Order Now
           </h2>
           {dividerLine}
           <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
@@ -812,7 +812,7 @@ function BookNow() {
             </h3>
             <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic',
               fontSize:'1.05rem', color:'var(--text-muted)' }}>
-              Thank you, {form.name}. We will be in touch shortly to confirm your booking.
+              Thank you, {form.name}. We will be in touch shortly to confirm your order.
             </p>
           </div>
         ) : (
@@ -897,7 +897,7 @@ function BookNow() {
               boxShadow:'0 4px 28px rgba(196,149,106,0.3)',
               transition:'opacity 0.3s', marginTop:4,
             }}>
-              {sending ? 'Sending...' : 'Request Booking'}
+              {sending ? 'Sending...' : 'Request Order'}
             </button>
           </form>
         )}
@@ -990,7 +990,7 @@ function Footer() {
           </div>
 
           <div style={{ display:'flex', gap:24, flexWrap:'wrap' }}>
-            {['Services','About','Gallery','Book Now','Contact'].map(l => (
+            {['Services','About','Gallery','Order Now','Contact'].map(l => (
               <a key={l} href={`#${l.toLowerCase().replace(' ','-')}`} style={{
                 fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem',
                 letterSpacing:'0.18em', color:'rgba(240,230,220,0.45)',
@@ -1661,9 +1661,10 @@ export default function App() {
       <AiAssistant />
       <About />
       <Gallery />
-      <BookNow />
+      <OrderNow />
       <Contact />
       <Footer />
     </>
   );
 }
+
