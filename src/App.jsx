@@ -897,6 +897,16 @@ const NAIL_PRODUCTS = [
     img: '/nail-sweet-bride.jpg',
     instaSrc: '0f4eff56d',
   },
+  {
+    id: 'garden-florals',
+    name: 'Garden Florals Signature Set',
+    subtitle: 'LUXÉ Nails Collection',
+    desc: 'Nude base with crisp white French tips, each nail hand-painted with vibrant 3D flowers in yellow, blue, pink, green and lavender. A full garden of luxury on your fingertips.',
+    price: 'R224.00',
+    tags: ['3D Art', 'French Tip', 'Multi-Colour'],
+    img: '/nail-garden-florals.jpg',
+    instaSrc: '6cd4b390f',
+  },
 ];
 
 const SIZE_CHART = [
