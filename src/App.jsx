@@ -768,7 +768,7 @@ function NailsShop() {
 /* ─── JEWELLERY SHOP ─── */
 function JewelleryShop() {
   return (
-    <section id="jewellery" style={{ padding:'80px clamp(20px,6vw,80px) 100px', background:'linear-gradient(180deg,var(--black) 0%,#0d0808 100%)' }}>
+    <section id="jewellery" style={{ padding:'80px clamp(20px,6vw,80px) 100px', background:'linear-gradient(160deg,#fdf6f0 0%,#fff8f5 50%,#fdf0f3 100%)' }}>
       <div style={{ maxWidth:1200, margin:'0 auto' }}>
         <div style={{ textAlign:'center', marginBottom:64 }}>
           <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem', letterSpacing:'0.35em', color:'#A0444C', marginBottom:12, textTransform:'uppercase' }}>Maison Deluxe Collection</p>
@@ -807,7 +807,7 @@ function JewelleryShop() {
             </div>
           ))}
         </div>
-        <div style={{ textAlign:'center', marginTop:44, padding:'28px', border:'1px solid rgba(196,149,106,0.2)', background:'rgba(196,149,106,0.03)' }}>
+        <div style={{ textAlign:'center', marginTop:44, padding:'28px', border:'1px solid rgba(196,149,106,0.25)', background:'rgba(255,255,255,0.6)' }}>
           <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'1.05rem', color:'rgba(61,26,30,0.74)', marginBottom:14 }}>See more pieces on our Instagram</p>
           <a href="https://instagram.com/maisondeluxebyangel" target="_blank" rel="noopener noreferrer" style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem', letterSpacing:'0.2em', color:'#A0444C', textDecoration:'none', textTransform:'uppercase', borderBottom:'1px solid rgba(196,149,106,0.25)', paddingBottom:2 }}>@maisondeluxebyangel</a>
         </div>
