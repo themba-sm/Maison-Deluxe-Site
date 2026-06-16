@@ -80,9 +80,9 @@ const VoiceAgent = {
     window.speechSynthesis.cancel();
     const utt = new window.SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Karen') || (v.lang === 'en-GB' && v.localService));
+    const preferred = voices.find(v => v.lang === 'en-ZA') || voices.find(v => v.name.includes('Google UK English Female')) || voices.find(v => v.name.includes('Zira')) || voices.find(v => v.name.includes('Samantha')) || voices.find(v => v.name.toLowerCase().includes('female'));
     if (preferred) utt.voice = preferred;
-    utt.rate = 0.93; utt.pitch = 1.05; utt.volume = 1;
+    utt.rate = 1.13; utt.pitch = 1.25; utt.volume = 1; // energetic SA female voice
     if (onEnd) { utt.onend = onEnd; utt.onerror = onEnd; }
     window.speechSynthesis.speak(utt);
     // Fallback: force-end speaking state after estimated duration
