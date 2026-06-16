@@ -108,7 +108,7 @@ function Navbar() {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  const links = ['Services','Nails','AI Concierge','Appointments','Order Now','Analytics','About','Contact'];
+  const links = ['Services','Nails','Jewellery','AI Concierge','Appointments','Order Now','About','Contact'];
   return (
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.4s', background: scrolled ? 'rgba(10,10,10,0.96)' : 'transparent', backdropFilter: scrolled ? 'blur(20px)' : 'none', borderBottom: scrolled ? '1px solid rgba(196,149,106,0.15)' : 'none', padding:'0 clamp(20px,5vw,60px)' }}>
       <div style={{ maxWidth:1300, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', height:70 }}>
@@ -523,15 +523,63 @@ function Appointments() {
 
 /* ─── NAIL PRODUCTS DATA ─── */
 const NAIL_PRODUCTS = [
-  { id:'signature', name:'Signature Set', subtitle:'LUXÉ Nails Collection', desc:'Timeless elegance. Neutral tones with subtle shimmer — the definition of understated luxury.', price:'R149.00', priceNum:149, tags:['Classic','Neutral'], img:'/nail-signature.jpg' },
-  { id:'noir-classic', name:'Noir Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Midnight black in a glossy finish. Bold. Powerful. Unapologetic.', price:'R110.00', priceNum:110, tags:['Classic','Dark'], img:'/nail-noir-classic.jpg' },
-  { id:'royal-blue', name:'Royal Blue Luxe Set', subtitle:'LUXÉ Nails Collection', desc:'Deep royal blue — sophisticated and striking in every light.', price:'R149.00', priceNum:149, tags:['Bold','Solid'], img:'/nail-royal-blue.jpg' },
-  { id:'blush-classic', name:'Blush Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Soft blush pink, perfectly shaped. Everyday luxury you can wear anywhere.', price:'R110.00', priceNum:110, tags:['Classic','Soft'], img:'/nail-blush-classic.jpg' },
-  { id:'floral-french', name:'Floral French Set', subtitle:'LUXÉ Nails Collection', desc:'Classic French tip adorned with hand-painted florals in soft pinks and whites.', price:'R164.00', priceNum:164, tags:['French Tip','Floral'], img:'/nail-floral-french.jpg' },
-  { id:'sunshine-classic', name:'Sunshine Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Warm sunshine yellow, shaped for glowing summer days.', price:'R110.00', priceNum:110, tags:['Classic','Bright'], img:'/nail-sunshine-classic.jpg' },
-  { id:'sweet-bride', name:'Sweet Bride Set', subtitle:'LUXÉ Nails Collection', desc:'Bridal elegance in blush and white with delicate 3D floral art.', price:'R164.00', priceNum:164, tags:['Bridal','3D Art'], img:'/nail-sweet-bride.jpg' },
   { id:'garden-florals', name:'Garden Florals Signature Set', subtitle:'LUXÉ Nails Collection', desc:'Nude base with 3D flowers in vivid colours — a full garden on your fingertips.', price:'R224.00', priceNum:224, tags:['3D Art','Multi-Colour'], img:'/nail-garden-florals.jpg' },
+  { id:'noir-classic', name:'Noir Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Nude base with a sleek black French tip — sophisticated, striking, and effortlessly bold.', price:'R122.00', priceNum:122, tags:['French Tip','Dark'], img:'/nail-noir-classic.jpg' },
+  { id:'sunshine-classic', name:'Sunshine Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Warm sunshine yellow, shaped for glowing summer days.', price:'R80.00', priceNum:80, tags:['Classic','Bright'], img:'/nail-sunshine-classic.jpg' },
+  { id:'sweet-bride', name:'Sweet Bride Set', subtitle:'LUXÉ Nails Collection', desc:'Bridal elegance in blush and cream with delicate 3D pearl floral art.', price:'R204.00', priceNum:204, tags:['Bridal','3D Art'], img:'/nail-sweet-bride.jpg' },
   { id:'hot-pink-classic', name:'Hot Pink Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Bold hot pink in a clean glossy finish. A classic that never goes out of style.', price:'R110.00', priceNum:110, tags:['Classic','Bold'], img:'/nail-hot-pink-classic.jpg' },
+  { id:'floral-french', name:'Floral French Set', subtitle:'LUXÉ Nails Collection', desc:'Soft pink base with a white French tip and hand-crafted 3D floral blooms in blush.', price:'R164.00', priceNum:164, tags:['French Tip','Floral'], img:'/nail-floral-french.jpg' },
+  { id:'signature', name:'Signature Set', subtitle:'LUXÉ Nails Collection', desc:'Nude stiletto base with a white V-tip and a statement 3D white flower with crystal charm.', price:'R168.00', priceNum:168, tags:['Stiletto','Floral'], img:'/nail-signature.jpg' },
+  { id:'royal-blue', name:'Royal Blue Luxe Set', subtitle:'LUXÉ Nails Collection', desc:'Nude base with a deep navy French tip — adorned with a sparkling bow charm and blue crystal detail.', price:'R204.00', priceNum:204, tags:['French Tip','Glam'], img:'/nail-royal-blue.jpg' },
+  { id:'blush-classic', name:'Blush Classic Set', subtitle:'LUXÉ Nails Collection', desc:'Dusty pink stiletto with a white French tip and cascading 3D white florals with rhinestone accents.', price:'R154.00', priceNum:154, tags:['Stiletto','Floral'], img:'/nail-blush-classic.jpg' },
+];
+
+/* ─── JEWELLERY PRODUCTS DATA ─── */
+const JEWELLERY_PRODUCTS = [
+  {
+    id:'cross-necklace-gold',
+    name:'Crystal Cross Necklace',
+    subtitle:'Maison Deluxe Jewellery',
+    desc:'Stainless steel cross set with sparkling cubic zirconia stones. Timeless faith meets luxury finish.',
+    price:'R68.00',
+    priceNum:68,
+    tags:['Necklace','Gold'],
+    metal:'Gold',
+    img:'https://media.base44.com/images/public/whatsapp/6a2ff5ed23685ae7f8dac91d/your_agent/6a2ff5ed23685ae7f8dac91e/dfcd4aab6_whatsapp_image_1330789732361409.jpg'
+  },
+  {
+    id:'cross-necklace-silver',
+    name:'Crystal Cross Necklace',
+    subtitle:'Maison Deluxe Jewellery',
+    desc:'Stainless steel cross set with sparkling cubic zirconia stones. Timeless faith meets luxury finish.',
+    price:'R68.00',
+    priceNum:68,
+    tags:['Necklace','Silver'],
+    metal:'Silver',
+    img:'https://media.base44.com/images/public/whatsapp/6a2ff5ed23685ae7f8dac91d/your_agent/6a2ff5ed23685ae7f8dac91e/686d8ec25_whatsapp_image_1943809632993683.jpg'
+  },
+  {
+    id:'flower-bracelet-set',
+    name:"Women's Luxury Flower Bracelet Set",
+    subtitle:'Maison Deluxe Jewellery',
+    desc:'A duo of gold-plated floral bracelets — a wide cuff and a delicate chain — for effortless stacked elegance.',
+    price:'R242.00',
+    priceNum:242,
+    tags:['Bracelet','Gold','Set'],
+    metal:'Gold',
+    img:'https://media.base44.com/images/public/whatsapp/6a2ff5ed23685ae7f8dac91d/your_agent/6a2ff5ed23685ae7f8dac91e/b3bcad447_whatsapp_image_1024838303333969.jpg'
+  },
+  {
+    id:'roman-bracelet-set',
+    name:'3 Pcs Waterproof Stainless Steel Bracelet Set',
+    subtitle:'Maison Deluxe Jewellery',
+    desc:'Three bold gold bangles — Roman numeral engraving, floral detailing, and a sleek nail cuff. Waterproof & built to last.',
+    price:'R322.00',
+    priceNum:322,
+    tags:['Bracelet','Gold','Set'],
+    metal:'Gold',
+    img:'https://media.base44.com/images/public/whatsapp/6a2ff5ed23685ae7f8dac91d/your_agent/6a2ff5ed23685ae7f8dac91e/6096d72db_whatsapp_image_2042047893186546.jpg'
+  },
 ];
 const SIZE_CHART = [
   { size:'XS', thumb:'1.4cm', index:'1.0cm', middle:'1.1cm', ring:'1.0cm', pinky:'0.7cm' },
@@ -710,6 +758,58 @@ function NailsShop() {
         <div style={{ textAlign:'center', marginTop:44, padding:'28px', border:'1px solid rgba(192,48,58,0.2)', background:'rgba(192,48,58,0.02)' }}>
           <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'1.05rem', color:'rgba(61,26,30,0.74)', marginBottom:14 }}>See more designs on our Instagram</p>
           <a href="https://instagram.com/maisondeluxe_nails" target="_blank" rel="noopener noreferrer" style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem', letterSpacing:'0.2em', color:'#A0444C', textDecoration:'none', textTransform:'uppercase', borderBottom:'1px solid rgba(196,149,106,0.25)', paddingBottom:2 }}>@maisondeluxe_nails</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ─── JEWELLERY SHOP ─── */
+function JewelleryShop() {
+  return (
+    <section id="jewellery" style={{ padding:'80px clamp(20px,6vw,80px) 100px', background:'linear-gradient(180deg,var(--black) 0%,#0d0808 100%)' }}>
+      <div style={{ maxWidth:1200, margin:'0 auto' }}>
+        <div style={{ textAlign:'center', marginBottom:64 }}>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem', letterSpacing:'0.35em', color:'#A0444C', marginBottom:12, textTransform:'uppercase' }}>Maison Deluxe Collection</p>
+          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText }}>Jewellery</h2>
+          {dividerLine}
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'var(--text-muted)', maxWidth:580, margin:'0 auto 8px' }}>Curated pieces that complement your nails and elevate every look. Stainless steel · Waterproof · Nationwide delivery.</p>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))', gap:22 }}>
+          {JEWELLERY_PRODUCTS.map(p => (
+            <div key={p.id} style={{ background:'linear-gradient(160deg,#FFFFFF,#FDF0F3)', border:'1px solid rgba(196,149,106,0.2)', overflow:'hidden', transition:'border-color 0.3s, transform 0.3s', display:'flex', flexDirection:'column' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.5)'; e.currentTarget.style.transform='translateY(-4px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.2)'; e.currentTarget.style.transform='translateY(0)'; }}>
+              <div style={{ aspectRatio:'1/1', position:'relative', overflow:'hidden', borderBottom:'1px solid rgba(196,149,106,0.08)', background:'#FDF0F3' }}>
+                <img src={p.img} alt={p.name} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block', transition:'transform 0.6s' }} onMouseEnter={e => e.target.style.transform='scale(1.05)'} onMouseLeave={e => e.target.style.transform='scale(1)'} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:1, zIndex:2, background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.3),transparent)' }} />
+                {p.metal && (
+                  <div style={{ position:'absolute', top:12, right:12, padding:'3px 10px', background:'rgba(10,10,10,0.75)', backdropFilter:'blur(6px)', border:'1px solid rgba(196,149,106,0.35)' }}>
+                    <span style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', letterSpacing:'0.18em', color:'rgba(196,149,106,0.9)', textTransform:'uppercase' }}>{p.metal}</span>
+                  </div>
+                )}
+              </div>
+              <div style={{ padding:'clamp(16px,3vw,26px)', flex:1, display:'flex', flexDirection:'column' }}>
+                <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:10 }}>
+                  {p.tags.map(t => (<span key={t} style={{ padding:'2px 9px', border:'1px solid rgba(196,149,106,0.2)', fontFamily:'Montserrat,sans-serif', fontSize:'0.48rem', letterSpacing:'0.14em', color:'#A0444C', textTransform:'uppercase' }}>{t}</span>))}
+                </div>
+                <h3 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1rem', ...roseText, marginBottom:10 }}>{p.name}</h3>
+                <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.93rem', color:'rgba(61,26,30,0.68)', lineHeight:1.65, flex:1, marginBottom:16 }}>{p.desc}</p>
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:'1px solid rgba(196,149,106,0.1)' }}>
+                  <div>
+                    <p style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.05rem', ...roseText }}>{p.price}</p>
+                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', color:'#A0444C', letterSpacing:'0.1em' }}>+ R109.99 delivery</p>
+                  </div>
+                  <a href="#order-now" style={{ padding:'10px 20px', background:roseGrad, color:'#FFFFFF', fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.6rem', letterSpacing:'0.18em', textTransform:'uppercase', border:'none', cursor:'pointer', textDecoration:'none', display:'inline-block', boxShadow:'0 4px 16px rgba(192,48,58,0.15)' }}>ORDER</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign:'center', marginTop:44, padding:'28px', border:'1px solid rgba(196,149,106,0.2)', background:'rgba(196,149,106,0.03)' }}>
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'1.05rem', color:'rgba(61,26,30,0.74)', marginBottom:14 }}>See more pieces on our Instagram</p>
+          <a href="https://instagram.com/maisondeluxebyangel" target="_blank" rel="noopener noreferrer" style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem', letterSpacing:'0.2em', color:'#A0444C', textDecoration:'none', textTransform:'uppercase', borderBottom:'1px solid rgba(196,149,106,0.25)', paddingBottom:2 }}>@maisondeluxebyangel</a>
         </div>
       </div>
     </section>
@@ -994,6 +1094,7 @@ export default function App() {
       <Hero />
       <Services />
       <NailsShop />
+      <JewelleryShop />
       <AiConcierge />
       <Appointments />
       <OrderNow />
