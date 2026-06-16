@@ -59,7 +59,7 @@ const CRM = {
 };
 
 /* ─── WHATSAPP AUTOMATION ─── */
-const WA_NUMBER = '27622490750';
+const WA_NUMBER = '27000000000';
 const WA = {
   buildMessage: (type, data) => {
     if (type === 'order') return `*New Order — Maison Deluxe*\n\n*Order ID:* ${data.id}\n*Client:* ${data.name}\n*Service:* ${data.service}\n*Date:* ${data.date||'TBD'}\n*Amount:* ${data.total||'TBD'}\n*Phone:* ${data.phone||'N/A'}\n*Notes:* ${data.notes||'None'}\n\n_Automated via Maison Deluxe AI System_`;
@@ -83,8 +83,12 @@ const VoiceAgent = {
     const preferred = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Karen') || (v.lang === 'en-GB' && v.localService));
     if (preferred) utt.voice = preferred;
     utt.rate = 0.93; utt.pitch = 1.05; utt.volume = 1;
-    if (onEnd) utt.onend = onEnd;
+    if (onEnd) { utt.onend = onEnd; utt.onerror = onEnd; }
     window.speechSynthesis.speak(utt);
+    // Fallback: force-end speaking state after estimated duration
+    const wordCount = text.split(' ').length;
+    const estimatedMs = Math.max(2000, wordCount * 400);
+    setTimeout(() => { if (window.speechSynthesis && !window.speechSynthesis.speaking && onEnd) onEnd(); }, estimatedMs);
   },
   stop: () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); },
   listen: (onResult, onEnd) => {
@@ -113,7 +117,7 @@ function Navbar() {
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.4s', background: scrolled ? 'rgba(10,10,10,0.96)' : 'transparent', backdropFilter: scrolled ? 'blur(20px)' : 'none', borderBottom: scrolled ? '1px solid rgba(196,149,106,0.15)' : 'none', padding:'0 clamp(20px,5vw,60px)' }}>
       <div style={{ maxWidth:1300, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', height:70 }}>
         <a href="#hero" style={{ display:'flex', alignItems:'center', gap:12, textDecoration:'none' }}>
-          <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:44, height:44, borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.2)', padding:2 }} />
+          <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:40, height:40, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.3)', boxShadow:'0 0 16px rgba(192,48,58,0.2)' }} />
           <span style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.1rem', ...roseText }}>MAISON DELUXE</span>
         </a>
         <div style={{ display:'flex', gap:24, alignItems:'center' }} className="desktop-nav">
@@ -166,7 +170,7 @@ function Hero() {
         <div ref={logoRef} style={{ opacity:0, marginBottom:28, display:'flex', justifyContent:'center' }}>
           <div style={{ position:'relative', display:'inline-block' }}>
             <div style={{ position:'absolute', inset:'-10px', borderRadius:'50%', background:'radial-gradient(circle, rgba(242,196,200,0.6) 0%, transparent 70%)', filter:'blur(8px)' }} />
-            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(120px,18vw,160px)', height:'clamp(120px,18vw,160px)', borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'2px solid rgba(192,48,58,0.25)', boxShadow:'0 0 40px rgba(242,196,200,0.5)', position:'relative', zIndex:1, padding:6 }}
+            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(100px,18vw,150px)', height:'clamp(100px,18vw,150px)', borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.25)', boxShadow:'0 0 40px rgba(242,196,200,0.5)', position:'relative' }} />
           </div>
         </div>
         <div ref={titleRef} style={{ opacity:0, marginBottom:12 }}>
@@ -254,32 +258,30 @@ function AiConcierge() {
   const [captureForm, setCaptureForm] = useState({ name:'', phone:'', email:'' });
 
   useEffect(() => { window.speechSynthesis && window.speechSynthesis.getVoices(); }, []);
-  useEffect(() => { endRef.current?.scrollIntoView({ behavior:'smooth' }); }, [msgs]);
+  useEffect(() => { if (endRef.current) { const container = endRef.current.parentElement; if (container) container.scrollTop = container.scrollHeight; } }, [msgs]);
 
   const getReply = useCallback((msg) => {
     const m = msg.toLowerCase();
     if (m.includes('shop') || m.includes('press') || (m.includes('nail') && !m.includes('size') && !m.includes('book')))
-      return { text:"We have 9 stunning hand-crafted nail sets — Floral French, Noir Classic, Royal Blue Luxe, Garden Florals and more.\n\nEvailable sizes: XS · S · M · L\n\nEvery set includes:\n✦ Nail File\n✦ Liquid Nail Glue\n✦ Adhesive Tabs\n✦ Complimentary Gift\n✦ Reusable Sets\n\nDelivered nationwide across South Africa.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'] };
+      return { text:"We have 9 stunning hand-crafted nail sets — Garden Florals, Sweet Bride, Royal Blue Luxe, Floral French, Blush Classic and more.\n\nEvery set includes nail file, glue, adhesive tabs & a complimentary gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'], action:'scroll_nails' };
     if (m.includes('book') || m.includes('appointment') || m.includes('schedule'))
       return { text:"I'd love to book your appointment! Our AI Appointment System will guide you through selecting your service, date, and time in seconds.", options:['Go to Appointments','Main Menu'], action:'scroll_appointments' };
     if (m.includes('beauty') || m.includes('lash') || m.includes('makeup') || m.includes('brow'))
       return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery service is a personalised luxury experience crafted just for you.", options:['Book Appointment','Order Now','Main Menu'] };
-    if (m.includes('jewel'))
-      return { text:"Maison Deluxe Jewellery features sterling silver, gold-plated accessories and bespoke designs.\n\nEvery jewellery order includes:\n✦ Jewellery Care Instructions\n✦ Complimentary Gift\n\nVisit our Instagram @maisondeluxebyangel to browse the full collection.", options:['Main Menu'] };
+    if (m.includes('jewel') || m.includes('browse jewel'))
+      return { text:"Maison Deluxe Jewellery features stainless steel and gold-plated pieces — necklaces, bracelets and curated sets starting from R68.\n\nScrolling you to our jewellery collection now! 💛", options:['Main Menu'], action:'scroll_jewellery' };
     if (m.includes('track') || (m.includes('my') && m.includes('order')))
-      return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nProcessing time: 6–14 business days, then 3–5 business days courier delivery.\nDelivery fee: R109.95", options:['Contact on WhatsApp','Main Menu'] };
+      return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nAll nationwide orders are dispatched within 2–3 business days.", options:['Contact on WhatsApp','Main Menu'] };
     if (m.includes('price') || m.includes('cost') || m.includes('how much'))
-      return { text:"Our nail sets range from R110 to R224, plus R109.95 nationwide delivery.\n\nBeauty and jewellery services are priced on consultation.", options:['View Nail Sets','Book Appointment','Main Menu'] };
+      return { text:"Our nail sets range from R80 to R224, plus R109.99 nationwide delivery.\n\nJewellery pieces start from R68. Beauty services are priced on consultation.", options:['View Nail Sets','Book Appointment','Main Menu'] };
     if (m.includes('deliver') || m.includes('nationwide'))
-      return { text:"Yes! We deliver nationwide across South Africa. 🇿🇦\n\nDelivery fee: R109.95\nProcessing time: 6–14 business days\nCourier delivery: 3–5 business days", options:['Order Now','Main Menu'] };
-    if (m.includes('refund') || m.includes('policy') || m.includes('return') || m.includes('cancel'))
-      return { text:"Our Store Policy:\n\n✦ Full payment is required before processing your order.\n✦ No refunds once an order has been placed.\n✦ No custom changes to products.\n\nFor queries, contact us on WhatsApp: 062 249 0750", options:['Open WhatsApp','Main Menu'], action:'whatsapp' };
+      return { text:"Yes! We deliver nationwide across South Africa.\n\nDelivery is R109.99 and takes 2–3 business days. 🇿🇦", options:['Order Now','Main Menu'] };
     if (m.includes('faq') || m.includes('question'))
       return { text:"Common questions:", options:['How to measure my nail size?','Do you deliver nationwide?','How do I order?','Main Menu'] };
     if (m.includes('measure') || m.includes('size'))
       return { text:"Use a ruler across the widest part of each nail. Our sizes go from XS to L.\n\nWhen between sizes, always go one size up for comfort.", options:['Order a Set','Main Menu'] };
     if (m.includes('whatsapp') || m.includes('contact'))
-      return { text:"You can reach us directly on WhatsApp or email!\n\n📱 WhatsApp: 062 249 0750\n📧 Email: info.maisondeluxebpo@gmail.com\n📍 South Africa 🇿🇦\n\nWe typically respond very quickly!", options:['Open WhatsApp','Main Menu'], action:'whatsapp' };
+      return { text:"You can reach us directly on WhatsApp for instant assistance!", options:['Open WhatsApp','Main Menu'], action:'whatsapp' };
     if (m.includes('main menu') || m === 'menu')
       return { text:"How else can I help you today?", options:OPTS };
     if (m.includes('open whatsapp'))
@@ -299,11 +301,13 @@ function AiConcierge() {
     const reply = getReply(text);
     setMsgs(prev => [...prev, { from:'bot', ...reply }]);
     if (voiceMode) { setSpeaking(true); VoiceAgent.speak(reply.text.replace(/[◆◈◇✦\n]/g,' '), () => setSpeaking(false)); }
-    if (!leadCaptured && (text.toLowerCase().includes('order') || text.toLowerCase().includes('book'))) {
+    if (!leadCaptured && !showCapture && (text.toLowerCase().includes('order') || text.toLowerCase().includes('book') || text.toLowerCase().includes('appoint'))) {
       setTimeout(() => setShowCapture(true), 1200);
     }
     if (reply.action === 'whatsapp_open') setTimeout(() => WA.open('lead', { name:'Website Visitor', interest:'Chat Inquiry' }), 300);
     if (reply.action === 'scroll_appointments') setTimeout(() => document.getElementById('appointments')?.scrollIntoView({ behavior:'smooth' }), 400);
+    if (reply.action === 'scroll_jewellery') setTimeout(() => document.getElementById('jewellery')?.scrollIntoView({ behavior:'smooth' }), 400);
+    if (reply.action === 'scroll_nails') setTimeout(() => document.getElementById('nails')?.scrollIntoView({ behavior:'smooth' }), 400);
   }, [getReply, voiceMode, leadCaptured]);
 
   const toggleVoice = () => {
@@ -343,7 +347,7 @@ function AiConcierge() {
             <div style={{ padding:'16px 22px', borderBottom:'1px solid rgba(196,149,106,0.1)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
               <div style={{ display:'flex', alignItems:'center', gap:12 }}>
                 <div style={{ position:'relative' }}>
-                  <img src="/logo.jpg" alt="" style={{ width:36, height:36, borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.22)', padding:2 }}
+                  <img src="/logo.jpg" alt="" style={{ width:34, height:34, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.22)' }} />
                   <div style={{ position:'absolute', bottom:1, right:1, width:8, height:8, borderRadius:'50%', background:'#4CAF50', border:'1.5px solid #0a0a0a' }} />
                 </div>
                 <div>
@@ -632,7 +636,7 @@ function OrderModal({ product, onClose }) {
   const sizeOpts = ['XS','S','M','L'];
   const fingerKeys = ['thumb','index','middle','ring','pinky'];
   const allSizes = fingerKeys.every(k => sizes[k]);
-  const delivery = 109.95;
+  const delivery = 109.99;
   const total = (product.priceNum + delivery).toFixed(2);
   const inp = { width:'100%', padding:'11px 14px', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.15)', color:'var(--text)', fontFamily:'Cormorant Garamond,serif', fontSize:'0.98rem', outline:'none' };
 
@@ -642,7 +646,7 @@ function OrderModal({ product, onClose }) {
     const order = CRM.saveOrder({ name:info.name, email:info.email, phone:info.phone, address:info.address, service:`Nail Set: ${product.name}`, product:product.id, sizes, notes:info.notes, total:`R${total}`, type:'nail' });
     setOrderId(order.id);
     const sizeStr = fingerKeys.map(k => `${k.charAt(0).toUpperCase()+k.slice(1)}: ${sizes[k]}`).join(', ');
-    const msg = `*New Order — Maison Deluxe Nails*\n\n*Order ID:* ${order.id}\n*Set:* ${product.name}\n*Price:* ${product.price} + R109.95 delivery\n\n*Nail Sizes:* ${sizeStr}\n\n*Name:* ${info.name}\n*Phone:* ${info.phone}\n*Email:* ${info.email}\n*Address:* ${info.address}\n*Notes:* ${info.notes||'None'}\n\n*Total: R${total}*\n\n_Automated via Maison Deluxe AI Order System_`;
+    const msg = `*New Order — Maison Deluxe Nails*\n\n*Order ID:* ${order.id}\n*Set:* ${product.name}\n*Price:* ${product.price} + R109.99 delivery\n\n*Nail Sizes:* ${sizeStr}\n\n*Name:* ${info.name}\n*Phone:* ${info.phone}\n*Email:* ${info.email}\n*Address:* ${info.address}\n*Notes:* ${info.notes||'None'}\n\n*Total: R${total}*\n\n_Automated via Maison Deluxe AI Order System_`;
     await new Promise(r => setTimeout(r, 700));
     setSending(false); setSent(true);
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -654,7 +658,7 @@ function OrderModal({ product, onClose }) {
         <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:'linear-gradient(90deg,transparent,rgba(192,48,58,0.35),transparent)' }} />
         <button onClick={onClose} style={{ position:'absolute', top:14, right:14, background:'none', border:'none', cursor:'pointer', color:'#A0444C', fontSize:'1.2rem' }}>✕</button>
         <h3 style={{ fontFamily:'Cinzel,serif', fontSize:'1.25rem', ...roseText, marginBottom:4 }}>{product.name}</h3>
-        <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.9rem', color:'rgba(61,26,30,0.7)', marginBottom:18 }}>{product.price} + R109.95 delivery = <strong style={{color:'rgba(196,149,106,0.8)'}}>R{total}</strong></p>
+        <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.9rem', color:'rgba(61,26,30,0.7)', marginBottom:18 }}>{product.price} + R109.99 delivery = <strong style={{color:'rgba(196,149,106,0.8)'}}>R{total}</strong></p>
         <div style={{ display:'flex', gap:6, marginBottom:26 }}>
           {['Nail Sizes','Details','Confirm'].map((s,i) => (<div key={s} style={{ flex:1, textAlign:'center' }}><div style={{ height:2, marginBottom:5, background: step > i+1 ? roseGrad : step === i+1 ? roseGrad : 'rgba(196,149,106,0.15)' }} /><span style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.5rem', letterSpacing:'0.1em', color: step >= i+1 ? '#A0444C' : 'rgba(160,68,76,0.4)', textTransform:'uppercase' }}>{s}</span></div>))}
         </div>
@@ -693,13 +697,6 @@ function OrderModal({ product, onClose }) {
           </form>
         ) : (
           <form onSubmit={handleOrder}>
-            <div style={{ background:'rgba(192,48,58,0.04)', border:'1px solid rgba(192,48,58,0.15)', padding:'12px 16px', marginBottom:16, fontFamily:'Cormorant Garamond,serif', fontSize:'0.85rem', color:'rgba(61,26,30,0.75)', lineHeight:1.7 }}>
-              <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.52rem', letterSpacing:'0.18em', color:'#A0444C', textTransform:'uppercase', marginBottom:7 }}>◈ Store Policy</p>
-              <p>✦ Full payment is required before processing your order.</p>
-              <p>✦ No refunds once an order has been placed.</p>
-              <p>✦ No custom changes to products.</p>
-              <p style={{ marginTop:6 }}>✦ Processing: 6–14 business days + 3–5 days courier delivery.</p>
-            </div>
             {[['Product',product.name],['Sizes',fingerKeys.map(k=>`${k.charAt(0).toUpperCase()+k.slice(1)}:${sizes[k]}`).join(' | ')],['Name',info.name],['Phone',info.phone],['Address',info.address],['Total',`R${total}`]].map(([k,v]) => (
               <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'8px 0', borderBottom:'1px solid rgba(196,149,106,0.08)' }}>
                 <span style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.56rem', letterSpacing:'0.12em', color:'#A0444C', textTransform:'uppercase' }}>{k}</span>
@@ -730,7 +727,7 @@ function NailsShop() {
           <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem', letterSpacing:'0.35em', color:'#A0444C', marginBottom:12, textTransform:'uppercase' }}>LUXÉ Collection</p>
           <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText }}>Press-On Nails Shop</h2>
           {dividerLine}
-          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'var(--text-muted)', maxWidth:580, margin:'0 auto 8px' }}>Luxury handmade press-on nails · Reusable · Made with love in South Africa · Nationwide delivery.</p>
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'var(--text-muted)', maxWidth:580, margin:'0 auto 8px' }}>Luxury handmade press-on nails · Custom sets · Reusable · Made with love in South Africa · Nationwide delivery.</p>
           <div style={{ display:'flex', gap:10, justifyContent:'center', flexWrap:'wrap', margin:'24px 0 0' }}>
             {['Nail File','Liquid Nail Glue','Adhesive Tabs','Complimentary Gift','Reusable Sets'].map(i => (<span key={i} style={{ padding:'6px 14px', border:'1px solid rgba(192,48,58,0.15)', fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem', letterSpacing:'0.14em', color:'#A0444C', textTransform:'uppercase' }}>✦ {i}</span>))}
           </div>
@@ -756,7 +753,7 @@ function NailsShop() {
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:'1px solid rgba(196,149,106,0.1)' }}>
                   <div>
                     <p style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.05rem', ...roseText }}>{p.price}</p>
-                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', color:'#A0444C', letterSpacing:'0.1em' }}>+ R109.95 delivery</p>
+                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', color:'#A0444C', letterSpacing:'0.1em' }}>+ R109.99 delivery</p>
                   </div>
                   <button onClick={() => setOrdering(p)} style={{ padding:'10px 20px', background:roseGrad, color:'#FFFFFF', fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.6rem', letterSpacing:'0.18em', textTransform:'uppercase', border:'none', cursor:'pointer', boxShadow:'0 4px 16px rgba(192,48,58,0.15)' }}>ORDER</button>
                 </div>
@@ -808,7 +805,7 @@ function JewelleryShop() {
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:'1px solid rgba(196,149,106,0.1)' }}>
                   <div>
                     <p style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.05rem', ...roseText }}>{p.price}</p>
-                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', color:'#A0444C', letterSpacing:'0.1em' }}>+ R109.95 delivery</p>
+                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', color:'#A0444C', letterSpacing:'0.1em' }}>+ R109.99 delivery</p>
                   </div>
                   <a href="#order-now" style={{ padding:'10px 20px', background:roseGrad, color:'#FFFFFF', fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.6rem', letterSpacing:'0.18em', textTransform:'uppercase', border:'none', cursor:'pointer', textDecoration:'none', display:'inline-block', boxShadow:'0 4px 16px rgba(192,48,58,0.15)' }}>ORDER</a>
                 </div>
@@ -1024,7 +1021,7 @@ function About() {
             <div style={{ position:'absolute', inset:'-20px', borderRadius:'50%', background:'radial-gradient(circle,rgba(242,196,200,0.7) 0%,transparent 70%)', filter:'blur(12px)', animation:'float 4s ease-in-out infinite' }} />
             <div style={{ position:'absolute', inset:'-6px', borderRadius:'50%', border:'1px solid rgba(192,48,58,0.18)' }} />
             <div style={{ position:'absolute', inset:'-18px', borderRadius:'50%', border:'1px solid rgba(192,48,58,0.08)' }} />
-            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(200px,30vw,300px)', height:'auto', objectFit:'contain', borderRadius:0, filter:'drop-shadow(0 4px 20px rgba(192,48,58,0.15))', position:'relative', zIndex:1 }}
+            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(180px,28vw,260px)', height:'clamp(180px,28vw,260px)', borderRadius:'50%', objectFit:'cover', display:'block', border:'1px solid rgba(192,48,58,0.22)', boxShadow:'0 0 60px rgba(242,196,200,0.45)', position:'relative' }} />
           </div>
         </div>
         <div>
@@ -1081,18 +1078,14 @@ function Footer() {
   return (
     <footer style={{ padding:'44px clamp(20px,6vw,80px) 28px', background:'#F5D8DC', borderTop:'1px solid rgba(196,149,106,0.1)' }}>
       <div style={{ maxWidth:1100, margin:'0 auto', display:'flex', flexDirection:'column', alignItems:'center', gap:18, textAlign:'center' }}>
-        <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:52, height:52, borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.18)', padding:3 }} />
+        <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:44, height:44, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.18)', opacity:0.75 }} />
         <span style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'0.88rem', letterSpacing:'0.2em', ...roseText }}>MAISON DELUXE</span>
         <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.85rem', color:'rgba(61,26,30,0.7)' }}>Elevate. Express. Empower.</p>
         <div style={{ display:'flex', gap:18, flexWrap:'wrap', justifyContent:'center' }}>
           {['luxebeautyco___','maisondeluxe_nails','maisondeluxebyangel'].map(h => (<a key={h} href={`https://instagram.com/${h}`} target="_blank" rel="noopener noreferrer" style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem', letterSpacing:'0.14em', color:'#A0444C', textDecoration:'none' }}>@{h}</a>))}
         </div>
         <div style={{ height:1, width:'100%', maxWidth:180, background:'linear-gradient(90deg,transparent,rgba(192,48,58,0.12),transparent)' }} />
-        <div style={{ display:'flex', gap:14, flexWrap:'wrap', justifyContent:'center' }}>
-          <a href="mailto:info.maisondeluxebpo@gmail.com" style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.52rem', letterSpacing:'0.12em', color:'#A0444C', textDecoration:'none' }}>✉ info.maisondeluxebpo@gmail.com</a>
-          <a href="https://wa.me/27622490750" target="_blank" rel="noopener noreferrer" style={{ fontFamily:'Montserrat,sans-serif', fontSize:'0.52rem', letterSpacing:'0.12em', color:'#A0444C', textDecoration:'none' }}>💬 062 249 0750</a>
-        </div>
-        <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.52rem', letterSpacing:'0.18em', color:'rgba(196,149,106,0.5)', textTransform:'uppercase' }}>© 2026 Maison Deluxe · South Africa 🇿🇦</p>
+        <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.52rem', letterSpacing:'0.18em', color:'rgba(196,149,106,0.18)', textTransform:'uppercase' }}>© 2025 Maison Deluxe · AI Powered · South Africa</p>
         <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.48rem', letterSpacing:'0.1em', color:'rgba(160,68,76,0.2)' }}>AI Concierge · Voice Agent · CRM · WhatsApp Automation · Appointments · Analytics</p>
       </div>
     </footer>
@@ -1101,6 +1094,11 @@ function Footer() {
 
 /* ─── APP ─── */
 export default function App() {
+  useEffect(() => {
+    // Always start at the top of the page on load, ignore any URL hash scroll
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
   return (
     <>
       <Navbar />
