@@ -1107,6 +1107,7 @@ export default function App() {
       <Hero />
       <Services />
       <NailsShop />
+      <JewelleryShop />
       <AiConcierge />
       <Appointments />
       <OrderNow />
