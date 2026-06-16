@@ -113,7 +113,7 @@ function Navbar() {
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.4s', background: scrolled ? 'rgba(10,10,10,0.96)' : 'transparent', backdropFilter: scrolled ? 'blur(20px)' : 'none', borderBottom: scrolled ? '1px solid rgba(196,149,106,0.15)' : 'none', padding:'0 clamp(20px,5vw,60px)' }}>
       <div style={{ maxWidth:1300, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', height:70 }}>
         <a href="#hero" style={{ display:'flex', alignItems:'center', gap:12, textDecoration:'none' }}>
-          <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:40, height:40, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.3)', boxShadow:'0 0 16px rgba(192,48,58,0.2)' }} />
+          <img src="/logo.jpg" alt="Maison Deluxe" style={{ height:44, width:'auto', maxWidth:160, objectFit:'contain', borderRadius:0, opacity:1 }} />
           <span style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.1rem', ...roseText }}>MAISON DELUXE</span>
         </a>
         <div style={{ display:'flex', gap:24, alignItems:'center' }} className="desktop-nav">
@@ -166,7 +166,7 @@ function Hero() {
         <div ref={logoRef} style={{ opacity:0, marginBottom:28, display:'flex', justifyContent:'center' }}>
           <div style={{ position:'relative', display:'inline-block' }}>
             <div style={{ position:'absolute', inset:'-10px', borderRadius:'50%', background:'radial-gradient(circle, rgba(242,196,200,0.6) 0%, transparent 70%)', filter:'blur(8px)' }} />
-            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(100px,18vw,150px)', height:'clamp(100px,18vw,150px)', borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.25)', boxShadow:'0 0 40px rgba(242,196,200,0.5)', position:'relative' }} />
+            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(180px,26vw,260px)', height:'auto', objectFit:'contain', borderRadius:0, filter:'drop-shadow(0 8px 32px rgba(192,48,58,0.2))', position:'relative', zIndex:1 }}
           </div>
         </div>
         <div ref={titleRef} style={{ opacity:0, marginBottom:12 }}>
@@ -341,7 +341,7 @@ function AiConcierge() {
             <div style={{ padding:'16px 22px', borderBottom:'1px solid rgba(196,149,106,0.1)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
               <div style={{ display:'flex', alignItems:'center', gap:12 }}>
                 <div style={{ position:'relative' }}>
-                  <img src="/logo.jpg" alt="" style={{ width:34, height:34, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.22)' }} />
+                  <img src="/logo.jpg" alt="" style={{ width:38, height:38, objectFit:'contain', borderRadius:4, border:'none', background:'#FDF0F3' }}
                   <div style={{ position:'absolute', bottom:1, right:1, width:8, height:8, borderRadius:'50%', background:'#4CAF50', border:'1.5px solid #0a0a0a' }} />
                 </div>
                 <div>
@@ -1015,7 +1015,7 @@ function About() {
             <div style={{ position:'absolute', inset:'-20px', borderRadius:'50%', background:'radial-gradient(circle,rgba(242,196,200,0.7) 0%,transparent 70%)', filter:'blur(12px)', animation:'float 4s ease-in-out infinite' }} />
             <div style={{ position:'absolute', inset:'-6px', borderRadius:'50%', border:'1px solid rgba(192,48,58,0.18)' }} />
             <div style={{ position:'absolute', inset:'-18px', borderRadius:'50%', border:'1px solid rgba(192,48,58,0.08)' }} />
-            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(180px,28vw,260px)', height:'clamp(180px,28vw,260px)', borderRadius:'50%', objectFit:'cover', display:'block', border:'1px solid rgba(192,48,58,0.22)', boxShadow:'0 0 60px rgba(242,196,200,0.45)', position:'relative' }} />
+            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(200px,30vw,300px)', height:'auto', objectFit:'contain', borderRadius:0, filter:'drop-shadow(0 4px 20px rgba(192,48,58,0.15))', position:'relative', zIndex:1 }}
           </div>
         </div>
         <div>
@@ -1072,7 +1072,7 @@ function Footer() {
   return (
     <footer style={{ padding:'44px clamp(20px,6vw,80px) 28px', background:'#F5D8DC', borderTop:'1px solid rgba(196,149,106,0.1)' }}>
       <div style={{ maxWidth:1100, margin:'0 auto', display:'flex', flexDirection:'column', alignItems:'center', gap:18, textAlign:'center' }}>
-        <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:44, height:44, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.18)', opacity:0.75 }} />
+        <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'auto', height:60, maxWidth:180, objectFit:'contain', borderRadius:0, opacity:1 }} />
         <span style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'0.88rem', letterSpacing:'0.2em', ...roseText }}>MAISON DELUXE</span>
         <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.85rem', color:'rgba(61,26,30,0.7)' }}>Elevate. Express. Empower.</p>
         <div style={{ display:'flex', gap:18, flexWrap:'wrap', justifyContent:'center' }}>
