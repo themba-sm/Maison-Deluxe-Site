@@ -263,13 +263,13 @@ function AiConcierge() {
   const getReply = useCallback((msg) => {
     const m = msg.toLowerCase();
     if (m.includes('shop') || m.includes('press') || (m.includes('nail') && !m.includes('size') && !m.includes('book')))
-      return { text:"We have 9 stunning hand-crafted nail sets — Garden Florals, Sweet Bride, Royal Blue Luxe, Floral French, Blush Classic and more.\n\nEvery set includes nail file, glue, adhesive tabs & a complimentary gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'], action:'scroll_nails' };
+      return { text:"We have 9 stunning hand-crafted nail sets — Garden Florals, Sweet Bride, Royal Blue Luxe, Floral French, Blush Classic and more.\n\nEvery set includes nail file, glue, adhesive tabs & a complimentary gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'] };
     if (m.includes('book') || m.includes('appointment') || m.includes('schedule'))
-      return { text:"I'd love to book your appointment! Our AI Appointment System will guide you through selecting your service, date, and time in seconds.", options:['Go to Appointments','Main Menu'], action:'scroll_appointments' };
+      return { text:"I'd love to book your appointment! Our AI Appointment System will guide you through selecting your service, date, and time in seconds.", options:['Go to Appointments','Main Menu'] };
     if (m.includes('beauty') || m.includes('lash') || m.includes('makeup') || m.includes('brow'))
       return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery service is a personalised luxury experience crafted just for you.", options:['Book Appointment','Order Now','Main Menu'] };
     if (m.includes('jewel') || m.includes('browse jewel'))
-      return { text:"Maison Deluxe Jewellery features stainless steel and gold-plated pieces — necklaces, bracelets and curated sets starting from R68.\n\nScrolling you to our jewellery collection now! 💛", options:['Main Menu'], action:'scroll_jewellery' };
+      return { text:"Maison Deluxe Jewellery features stainless steel and gold-plated pieces — necklaces, bracelets and curated sets starting from R68.\n\nScrolling you to our jewellery collection now! 💛", options:['View Jewellery Collection','Main Menu'] };
     if (m.includes('track') || (m.includes('my') && m.includes('order')))
       return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nAll nationwide orders are dispatched within 2–3 business days.", options:['Contact on WhatsApp','Main Menu'] };
     if (m.includes('price') || m.includes('cost') || m.includes('how much'))
@@ -306,8 +306,7 @@ function AiConcierge() {
     }
     if (reply.action === 'whatsapp_open') setTimeout(() => WA.open('lead', { name:'Website Visitor', interest:'Chat Inquiry' }), 300);
     if (reply.action === 'scroll_appointments') setTimeout(() => document.getElementById('appointments')?.scrollIntoView({ behavior:'smooth' }), 400);
-    if (reply.action === 'scroll_jewellery') setTimeout(() => document.getElementById('jewellery')?.scrollIntoView({ behavior:'smooth' }), 400);
-    if (reply.action === 'scroll_nails') setTimeout(() => document.getElementById('nails')?.scrollIntoView({ behavior:'smooth' }), 400);
+
   }, [getReply, voiceMode, leadCaptured]);
 
   const toggleVoice = () => {
