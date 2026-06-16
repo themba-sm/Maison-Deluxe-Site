@@ -108,7 +108,7 @@ function Navbar() {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  const links = ['Services','Nails','AI Concierge','Appointments','Order Now','Analytics','About','Gallery','Contact'];
+  const links = ['Services','Nails','AI Concierge','Appointments','Order Now','Analytics','About','Contact'];
   return (
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.4s', background: scrolled ? 'rgba(10,10,10,0.96)' : 'transparent', backdropFilter: scrolled ? 'blur(20px)' : 'none', borderBottom: scrolled ? '1px solid rgba(196,149,106,0.15)' : 'none', padding:'0 clamp(20px,5vw,60px)' }}>
       <div style={{ maxWidth:1300, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', height:70 }}>
@@ -351,10 +351,10 @@ function AiConcierge() {
               </div>
               <button onClick={toggleVoice} style={{ padding:'7px 14px', border:`1px solid ${voiceMode ? 'rgba(196,149,106,0.6)' : 'rgba(196,149,106,0.25)'}`, background: voiceMode ? 'rgba(196,149,106,0.15)' : 'transparent', color:'#A0444C', fontFamily:'Montserrat,sans-serif', fontSize:'0.55rem', letterSpacing:'0.12em', cursor:'pointer', textTransform:'uppercase', transition:'all 0.3s' }}>{voiceMode ? '🔊 Voice On' : '🎙 Voice'}</button>
             </div>
-            <div style={{ height:380, overflowY:'auto', padding:'18px 22px', display:'flex', flexDirection:'column', gap:14 }}>
+            <div style={{ height:380, overflowY:'auto', padding:'18px 22px', display:'flex', flexDirection:'column', gap:14, background:'#FEFAFA' }}>
               {msgs.map((m, i) => (
                 <div key={i} style={{ display:'flex', flexDirection:'column', alignItems: m.from==='user' ? 'flex-end' : 'flex-start', gap:8 }}>
-                  <div style={{ maxWidth:'82%', padding:'11px 15px', background: m.from==='user' ? roseGrad : 'rgba(255,255,255,0.04)', color: m.from==='user' ? '#1a0a00' : 'rgba(240,230,220,0.9)', border: m.from==='bot' ? '1px solid rgba(196,149,106,0.12)' : 'none', fontFamily:'Cormorant Garamond,serif', fontSize:'0.98rem', lineHeight:1.65, whiteSpace:'pre-line' }}>{m.text}</div>
+                  <div style={{ maxWidth:'82%', padding:'11px 15px', background: m.from==='user' ? roseGrad : '#FFFFFF', color: m.from==='user' ? '#FFFFFF' : '#3D1A1E', border: m.from==='bot' ? '1px solid rgba(192,48,58,0.18)' : 'none', fontFamily:'Cormorant Garamond,serif', fontSize:'0.98rem', lineHeight:1.65, whiteSpace:'pre-line' }}>{m.text}</div>
                   {m.options && m.options.length > 0 && (
                     <div style={{ display:'flex', gap:6, flexWrap:'wrap', maxWidth:'92%' }}>
                       {m.options.map((opt, j) => (
@@ -366,7 +366,7 @@ function AiConcierge() {
                   )}
                 </div>
               ))}
-              {typing && (<div style={{ display:'flex', gap:5, padding:'11px 15px', background:'rgba(192,48,58,0.06)', border:'1px solid rgba(192,48,58,0.15)', width:'fit-content' }}>{[0,1,2].map(i => <div key={i} style={{ width:6, height:6, borderRadius:'50%', background:'rgba(192,48,58,0.5)', animation:`typing 1.2s ${i*0.2}s ease-in-out infinite` }} />)}</div>)}
+              {typing && (<div style={{ display:'flex', gap:5, padding:'11px 15px', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.18)', width:'fit-content' }}>{[0,1,2].map(i => <div key={i} style={{ width:6, height:6, borderRadius:'50%', background:'rgba(192,48,58,0.5)', animation:`typing 1.2s ${i*0.2}s ease-in-out infinite` }} />)}</div>)}
               <div ref={endRef} />
             </div>
             <div style={{ padding:'14px 22px', borderTop:'1px solid rgba(196,149,106,0.1)', display:'flex', gap:8 }}>
@@ -933,49 +933,6 @@ function About() {
   );
 }
 
-/* ─── GALLERY ─── */
-function Gallery() {
-  const ref = useRef(null);
-  useEffect(() => {
-    if (!window.gsap || !window.ScrollTrigger) return;
-    window.gsap.registerPlugin(window.ScrollTrigger);
-    ref.current?.querySelectorAll('.gal-item')?.forEach((el,i) => { window.gsap.fromTo(el, { opacity:0, scale:0.92 }, { opacity:1, scale:1, duration:0.6, delay:i*0.08, scrollTrigger:{ trigger:el, start:'top 90%' } }); });
-  }, []);
-  const placeholders = [
-    { label:'Bridal Makeup', cat:'Beauty', col:'rgba(255,182,193,0.35)' },
-    { label:'Nail Art', cat:'Nails', col:'rgba(242,196,200,0.35)' },
-    { label:'Fine Jewellery', cat:'Jewellery', col:'rgba(255,182,193,0.35)' },
-    { label:'Lash Extensions', cat:'Beauty', col:'rgba(242,196,200,0.35)' },
-    { label:'Gel Sets', cat:'Nails', col:'rgba(255,182,193,0.35)' },
-    { label:'Bespoke Pieces', cat:'Jewellery', col:'rgba(242,196,200,0.35)' },
-  ];
-  return (
-    <section id="gallery" ref={ref} style={{ padding:'100px clamp(20px,6vw,80px)', background:'var(--black)' }}>
-      <div style={{ maxWidth:1100, margin:'0 auto' }}>
-        <div style={{ textAlign:'center', marginBottom:60 }}>
-          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem', letterSpacing:'0.35em', color:'#A0444C', marginBottom:12, textTransform:'uppercase' }}>Our Work</p>
-          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText }}>Gallery</h2>
-          {dividerLine}
-          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'clamp(0.95rem,2.2vw,1.1rem)', color:'var(--text-muted)' }}>A glimpse into the world of Maison Deluxe.</p>
-        </div>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))', gap:16 }}>
-          {placeholders.map((p, i) => (<div key={i} className="gal-item" style={{ aspectRatio:'1 / 1.1', background:`linear-gradient(160deg,${p.col},#FAE8EB)`, border:'1px solid rgba(192,48,58,0.2)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:10, cursor:'pointer', transition:'border-color 0.3s', position:'relative', overflow:'hidden' }} onMouseEnter={e => e.currentTarget.style.borderColor='rgba(192,48,58,0.45)'} onMouseLeave={e => e.currentTarget.style.borderColor='rgba(196,149,106,0.12)'}>
-            <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:'linear-gradient(90deg,transparent,rgba(192,48,58,0.22),transparent)' }} />
-            <span style={{ fontSize:'1.8rem', color:'#A0444C' }}>◈</span>
-            <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem', letterSpacing:'0.22em', color:'#A0444C', textTransform:'uppercase' }}>{p.cat}</p>
-            <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.93rem', color:'rgba(61,26,30,0.68)', textAlign:'center', padding:'0 20px' }}>{p.label}</p>
-          </div>))}
-        </div>
-        <div style={{ textAlign:'center', marginTop:38 }}>
-          <div style={{ display:'flex', gap:14, justifyContent:'center', flexWrap:'wrap' }}>
-            {['maisondeluxebyangel','luxebeautyco___','maisondeluxe_nails'].map(h => (<a key={h} href={`https://instagram.com/${h}`} target="_blank" rel="noopener noreferrer" style={{ padding:'9px 20px', border:'1px solid rgba(192,48,58,0.22)', fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.58rem', letterSpacing:'0.16em', color:'#A0444C', textDecoration:'none', textTransform:'lowercase', transition:'all 0.3s' }} onMouseEnter={e => { e.target.style.borderColor='rgba(196,149,106,0.6)'; e.target.style.color='#C4956A'; }} onMouseLeave={e => { e.target.style.borderColor='rgba(196,149,106,0.3)'; e.target.style.color='rgba(196,149,106,0.7)'; }}>@{h}</a>))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── CONTACT ─── */
 function Contact() {
   const ref = useRef(null);
@@ -1042,7 +999,6 @@ export default function App() {
       <OrderNow />
       <Analytics />
       <About />
-      <Gallery />
       <Contact />
       <Footer />
     </>
