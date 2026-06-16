@@ -247,7 +247,7 @@ function AiConcierge() {
   const endRef = useRef(null);
   const recRef = useRef(null);
   const OPTS = ['Shop Press-On Nails','Order a Beauty Service','Book Appointment','Browse Jewellery','Track My Order','FAQ'];
-  const [msgs, setMsgs] = useState([{ from:'bot', text:"Hello, gorgeous! Welcome to Maison Deluxe. 🌹\n\nI'm your personal AI concierge. I can help you order, book appointments, or answer any questions — and I can speak to you too.\n\nWhat can I help you with today?", options:OPTS }]);
+  const [msgs, setMsgs] = useState([{ from:'bot', text:"Oh my gosh, HIII gorgeous! 💅✨ Welcome to Maison Deluxe — honestly you have such amazing taste just for being here!\n\nI'm Angel, your personal AI concierge and I am SO excited to help you today! Whether you're ordering nails, booking a service or just browsing — I've got you, babe! 🌹\n\nWhat can we do for you today?", options:OPTS }]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [voiceMode, setVoiceMode] = useState(false);
@@ -263,32 +263,32 @@ function AiConcierge() {
   const getReply = useCallback((msg) => {
     const m = msg.toLowerCase();
     if (m.includes('shop') || m.includes('press') || (m.includes('nail') && !m.includes('size') && !m.includes('book')))
-      return { text:"We have 9 stunning hand-crafted nail sets — Garden Florals, Sweet Bride, Royal Blue Luxe, Floral French, Blush Classic and more.\n\nEvery set includes nail file, glue, adhesive tabs & a complimentary gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'] };
+      return { text:"Okay so our nail sets are STUNNING and honestly you are going to obsess over them! 😍💅\n\nWe've got Garden Florals, Sweet Bride, Royal Blue Luxe, Floral French, Blush Classic and SO much more — 9 sets total, each one hand-crafted with love.\n\nEvery set comes with a nail file, glue, adhesive tabs AND a complimentary gift. Delivered right to your door nationwide! 🎁", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'] };
     if (m.includes('book') || m.includes('appointment') || m.includes('schedule'))
-      return { text:"I'd love to book your appointment! Our AI Appointment System will guide you through selecting your service, date, and time in seconds.", options:['Go to Appointments','Main Menu'] };
+      return { text:"Yesss, let's get you BOOKED in! 🙌 You deserve to be pampered and I am here for it! Our AI Appointment System is super quick — it'll guide you through picking your service, date and time in literally seconds. You're going to love it!", options:['Go to Appointments','Main Menu'] };
     if (m.includes('beauty') || m.includes('lash') || m.includes('makeup') || m.includes('brow'))
-      return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery service is a personalised luxury experience crafted just for you.", options:['Book Appointment','Order Now','Main Menu'] };
+      return { text:"Oh babe, you came to the RIGHT place! ✨ We do full face makeup, lash extensions, lash lifts & tints, brow shaping, waxing and more!\n\nAnd can I just say — with your energy you are going to look UNREAL. Every service is a full luxury experience personalised just for you. You deserve nothing less! 💖", options:['Book Appointment','Order Now','Main Menu'] };
     if (m.includes('jewel') || m.includes('browse jewel'))
-      return { text:"Maison Deluxe Jewellery features stainless steel and gold-plated pieces — necklaces, bracelets and curated sets starting from R68.\n\nScrolling you to our jewellery collection now! 💛", options:['View Jewellery Collection','Main Menu'] };
+      return { text:"Okay the jewellery section is giving EVERYTHING and I just know you're going to find something that matches your vibe perfectly! 😍✨\n\nWe have stainless steel and gold-plated necklaces, bracelets and curated sets — starting from only R68! Waterproof too so you can slay every single day. Scroll down and take a look, babe! 💛", options:['View Jewellery Collection','Main Menu'] };
     if (m.includes('track') || (m.includes('my') && m.includes('order')))
-      return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nAll nationwide orders are dispatched within 2–3 business days.", options:['Contact on WhatsApp','Main Menu'] };
+      return { text:"Of course babe, let's track that down for you! 📦✨ Just share your order number with us on WhatsApp and we'll get back to you immediately — like right away!\n\nAll our nationwide orders go out within 2–3 business days, so your gorgeous parcel is on its way to you! 🎉", options:['Contact on WhatsApp','Main Menu'] };
     if (m.includes('price') || m.includes('cost') || m.includes('how much'))
-      return { text:"Our nail sets range from R80 to R224, plus R109.99 nationwide delivery.\n\nJewellery pieces start from R68. Beauty services are priced on consultation.", options:['View Nail Sets','Book Appointment','Main Menu'] };
+      return { text:"So here's the tea — incredible quality at prices that won't break the bank! 💅\n\nNail sets go from R80 to R224, jewellery from R68, plus R109.99 for nationwide delivery right to your door!\n\nBeauty services are priced on consultation because every gorgeous person is different. You're worth a personalised experience! ✨", options:['View Nail Sets','Book Appointment','Main Menu'] };
     if (m.includes('deliver') || m.includes('nationwide'))
-      return { text:"Yes! We deliver nationwide across South Africa.\n\nDelivery is R109.99 and takes 2–3 business days. 🇿🇦", options:['Order Now','Main Menu'] };
+      return { text:"Yesss, we deliver NATIONWIDE across South Africa! 🇿🇦🙌\n\nJust R109.99 delivery and it'll be with you in 2–3 business days. We literally bring the luxury straight to your door! How amazing is that?! 💖", options:['Order Now','Main Menu'] };
     if (m.includes('faq') || m.includes('question'))
       return { text:"Common questions:", options:['How to measure my nail size?','Do you deliver nationwide?','How do I order?','Main Menu'] };
     if (m.includes('measure') || m.includes('size'))
-      return { text:"Use a ruler across the widest part of each nail. Our sizes go from XS to L.\n\nWhen between sizes, always go one size up for comfort.", options:['Order a Set','Main Menu'] };
+      return { text:"Oh okay so this is important and I want to make sure your set fits you PERFECTLY because you deserve that! 💅\n\nJust use a ruler across the widest part of each nail — our sizes go from XS to L. And if you're between sizes, always go one up for comfort. Your nails are going to look absolutely STUNNING! ✨", options:['Order a Set','Main Menu'] };
     if (m.includes('whatsapp') || m.includes('contact'))
-      return { text:"You can reach us directly on WhatsApp for instant assistance!", options:['Open WhatsApp','Main Menu'], action:'whatsapp' };
+      return { text:"Absolutely babe! Our team is literally waiting to help you on WhatsApp — they are SO lovely and will sort you out instantly! 💬✨", options:['Open WhatsApp','Main Menu'], action:'whatsapp' };
     if (m.includes('main menu') || m === 'menu')
-      return { text:"How else can I help you today?", options:OPTS };
+      return { text:"You're amazing, honestly! 💖 What else can I do for you today?", options:OPTS };
     if (m.includes('open whatsapp'))
-      return { text:"Opening WhatsApp now! 💬", options:['Main Menu'], action:'whatsapp_open' };
+      return { text:"On it! Connecting you to our amazing team right now! 💬✨", options:['Main Menu'], action:'whatsapp_open' };
     if (m.includes('go to appointments'))
-      return { text:"Heading to the Appointments section now!", options:[], action:'scroll_appointments' };
-    return { text:"Thank you for reaching out. Our team will assist you shortly. How else can I help?", options:OPTS };
+      return { text:"Yesss! Let's get you booked in — you are going to be OBSESSED with this experience! 🙌✨", options:[], action:'scroll_appointments' };
+    return { text:"Oh I love that you're here! 💖 I want to make sure I give you the best answer — our team will be in touch shortly to help you with that. In the meantime, is there anything else I can do for you? ✨", options:OPTS };
   }, []);
 
   const sendMsg = useCallback(async (text) => {
@@ -311,7 +311,7 @@ function AiConcierge() {
 
   const toggleVoice = () => {
     if (voiceMode) { VoiceAgent.stop(); setVoiceMode(false); setListening(false); }
-    else { setVoiceMode(true); setSpeaking(true); VoiceAgent.speak("Hello! Voice mode activated. I'm your Maison Deluxe AI receptionist. How can I assist you today?", () => setSpeaking(false)); }
+    else { setVoiceMode(true); setSpeaking(true); VoiceAgent.speak("Heyyy babe! Voice mode is ON and honestly? You sound amazing already! I'm Angel, your Maison Deluxe concierge — let's make this experience absolutely gorgeous for you. What can I help you with?", () => setSpeaking(false)); }
   };
 
   const startListening = () => {
@@ -327,7 +327,7 @@ function AiConcierge() {
     WA.open('lead', captureForm);
     setLeadCaptured(true);
     setShowCapture(false);
-    setMsgs(prev => [...prev, { from:'bot', text:`Thank you, ${captureForm.name}! Your details have been saved and our team has been notified via WhatsApp. We'll be in touch shortly. 🌹`, options:OPTS }]);
+    setMsgs(prev => [...prev, { from:'bot', text:`Oh my gosh ${captureForm.name}, you are literally the BEST! 🌹✨ Your details are saved and our team has been notified on WhatsApp — they are going to take such good care of you! We'll be in touch very soon, babe! 💖`, options:OPTS }]);
   };
 
   return (
