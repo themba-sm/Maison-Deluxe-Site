@@ -83,8 +83,12 @@ const VoiceAgent = {
     const preferred = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Karen') || (v.lang === 'en-GB' && v.localService));
     if (preferred) utt.voice = preferred;
     utt.rate = 0.93; utt.pitch = 1.05; utt.volume = 1;
-    if (onEnd) utt.onend = onEnd;
+    if (onEnd) { utt.onend = onEnd; utt.onerror = onEnd; }
     window.speechSynthesis.speak(utt);
+    // Fallback: force-end speaking state after estimated duration
+    const wordCount = text.split(' ').length;
+    const estimatedMs = Math.max(2000, wordCount * 400);
+    setTimeout(() => { if (window.speechSynthesis && !window.speechSynthesis.speaking && onEnd) onEnd(); }, estimatedMs);
   },
   stop: () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); },
   listen: (onResult, onEnd) => {
@@ -113,7 +117,7 @@ function Navbar() {
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.4s', background: scrolled ? 'rgba(10,10,10,0.96)' : 'transparent', backdropFilter: scrolled ? 'blur(20px)' : 'none', borderBottom: scrolled ? '1px solid rgba(196,149,106,0.15)' : 'none', padding:'0 clamp(20px,5vw,60px)' }}>
       <div style={{ maxWidth:1300, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', height:70 }}>
         <a href="#hero" style={{ display:'flex', alignItems:'center', gap:12, textDecoration:'none' }}>
-          <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:44, height:44, borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.2)', padding:2 }} />
+          <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:40, height:40, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.3)', boxShadow:'0 0 16px rgba(192,48,58,0.2)' }} />
           <span style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.1rem', ...roseText }}>MAISON DELUXE</span>
         </a>
         <div style={{ display:'flex', gap:24, alignItems:'center' }} className="desktop-nav">
@@ -166,7 +170,7 @@ function Hero() {
         <div ref={logoRef} style={{ opacity:0, marginBottom:28, display:'flex', justifyContent:'center' }}>
           <div style={{ position:'relative', display:'inline-block' }}>
             <div style={{ position:'absolute', inset:'-10px', borderRadius:'50%', background:'radial-gradient(circle, rgba(242,196,200,0.6) 0%, transparent 70%)', filter:'blur(8px)' }} />
-            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(120px,18vw,160px)', height:'clamp(120px,18vw,160px)', borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'2px solid rgba(192,48,58,0.25)', boxShadow:'0 0 40px rgba(242,196,200,0.5)', position:'relative', zIndex:1, padding:6 }}
+            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(100px,18vw,150px)', height:'clamp(100px,18vw,150px)', borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.25)', boxShadow:'0 0 40px rgba(242,196,200,0.5)', position:'relative' }} />
           </div>
         </div>
         <div ref={titleRef} style={{ opacity:0, marginBottom:12 }}>
@@ -259,17 +263,17 @@ function AiConcierge() {
   const getReply = useCallback((msg) => {
     const m = msg.toLowerCase();
     if (m.includes('shop') || m.includes('press') || (m.includes('nail') && !m.includes('size') && !m.includes('book')))
-      return { text:"We have 9 stunning hand-crafted nail sets — Floral French, Noir Classic, Royal Blue Luxe, Garden Florals and more.\n\nEvery set includes nail file, glue, adhesive tabs & a complimentary gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'] };
+      return { text:"We have 9 stunning hand-crafted nail sets — Garden Florals, Sweet Bride, Royal Blue Luxe, Floral French, Blush Classic and more.\n\nEvery set includes nail file, glue, adhesive tabs & a complimentary gift. Delivered nationwide.", options:['Order a Nail Set','How to Measure My Nails','Back to Menu'], action:'scroll_nails' };
     if (m.includes('book') || m.includes('appointment') || m.includes('schedule'))
       return { text:"I'd love to book your appointment! Our AI Appointment System will guide you through selecting your service, date, and time in seconds.", options:['Go to Appointments','Main Menu'], action:'scroll_appointments' };
     if (m.includes('beauty') || m.includes('lash') || m.includes('makeup') || m.includes('brow'))
       return { text:"We offer full face makeup, lash extensions, lash lifts & tints, brow shaping, and waxing.\n\nEvery service is a personalised luxury experience crafted just for you.", options:['Book Appointment','Order Now','Main Menu'] };
-    if (m.includes('jewel'))
-      return { text:"Maison Deluxe Jewellery features sterling silver, gold-plated accessories and custom bespoke designs.\n\nVisit our Instagram to browse the full curated collection.", options:['Main Menu'] };
+    if (m.includes('jewel') || m.includes('browse jewel'))
+      return { text:"Maison Deluxe Jewellery features stainless steel and gold-plated pieces — necklaces, bracelets and curated sets starting from R68.\n\nScrolling you to our jewellery collection now! 💛", options:['Main Menu'], action:'scroll_jewellery' };
     if (m.includes('track') || (m.includes('my') && m.includes('order')))
       return { text:"To track your order, share your order number and we'll respond immediately via WhatsApp.\n\nAll nationwide orders are dispatched within 2–3 business days.", options:['Contact on WhatsApp','Main Menu'] };
     if (m.includes('price') || m.includes('cost') || m.includes('how much'))
-      return { text:"Our nail sets range from R110 to R224, plus R109.99 nationwide delivery.\n\nBeauty and jewellery services are priced on consultation.", options:['View Nail Sets','Book Appointment','Main Menu'] };
+      return { text:"Our nail sets range from R80 to R224, plus R109.99 nationwide delivery.\n\nJewellery pieces start from R68. Beauty services are priced on consultation.", options:['View Nail Sets','Book Appointment','Main Menu'] };
     if (m.includes('deliver') || m.includes('nationwide'))
       return { text:"Yes! We deliver nationwide across South Africa.\n\nDelivery is R109.99 and takes 2–3 business days. 🇿🇦", options:['Order Now','Main Menu'] };
     if (m.includes('faq') || m.includes('question'))
@@ -297,11 +301,13 @@ function AiConcierge() {
     const reply = getReply(text);
     setMsgs(prev => [...prev, { from:'bot', ...reply }]);
     if (voiceMode) { setSpeaking(true); VoiceAgent.speak(reply.text.replace(/[◆◈◇✦\n]/g,' '), () => setSpeaking(false)); }
-    if (!leadCaptured && (text.toLowerCase().includes('order') || text.toLowerCase().includes('book'))) {
+    if (!leadCaptured && !showCapture && (text.toLowerCase().includes('order') || text.toLowerCase().includes('book') || text.toLowerCase().includes('appoint'))) {
       setTimeout(() => setShowCapture(true), 1200);
     }
     if (reply.action === 'whatsapp_open') setTimeout(() => WA.open('lead', { name:'Website Visitor', interest:'Chat Inquiry' }), 300);
     if (reply.action === 'scroll_appointments') setTimeout(() => document.getElementById('appointments')?.scrollIntoView({ behavior:'smooth' }), 400);
+    if (reply.action === 'scroll_jewellery') setTimeout(() => document.getElementById('jewellery')?.scrollIntoView({ behavior:'smooth' }), 400);
+    if (reply.action === 'scroll_nails') setTimeout(() => document.getElementById('nails')?.scrollIntoView({ behavior:'smooth' }), 400);
   }, [getReply, voiceMode, leadCaptured]);
 
   const toggleVoice = () => {
@@ -341,7 +347,7 @@ function AiConcierge() {
             <div style={{ padding:'16px 22px', borderBottom:'1px solid rgba(196,149,106,0.1)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
               <div style={{ display:'flex', alignItems:'center', gap:12 }}>
                 <div style={{ position:'relative' }}>
-                  <img src="/logo.jpg" alt="" style={{ width:36, height:36, borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.22)', padding:2 }}
+                  <img src="/logo.jpg" alt="" style={{ width:34, height:34, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.22)' }} />
                   <div style={{ position:'absolute', bottom:1, right:1, width:8, height:8, borderRadius:'50%', background:'#4CAF50', border:'1.5px solid #0a0a0a' }} />
                 </div>
                 <div>
@@ -1015,7 +1021,7 @@ function About() {
             <div style={{ position:'absolute', inset:'-20px', borderRadius:'50%', background:'radial-gradient(circle,rgba(242,196,200,0.7) 0%,transparent 70%)', filter:'blur(12px)', animation:'float 4s ease-in-out infinite' }} />
             <div style={{ position:'absolute', inset:'-6px', borderRadius:'50%', border:'1px solid rgba(192,48,58,0.18)' }} />
             <div style={{ position:'absolute', inset:'-18px', borderRadius:'50%', border:'1px solid rgba(192,48,58,0.08)' }} />
-            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(200px,30vw,300px)', height:'auto', objectFit:'contain', borderRadius:0, filter:'drop-shadow(0 4px 20px rgba(192,48,58,0.15))', position:'relative', zIndex:1 }}
+            <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:'clamp(180px,28vw,260px)', height:'clamp(180px,28vw,260px)', borderRadius:'50%', objectFit:'cover', display:'block', border:'1px solid rgba(192,48,58,0.22)', boxShadow:'0 0 60px rgba(242,196,200,0.45)', position:'relative' }} />
           </div>
         </div>
         <div>
@@ -1072,7 +1078,7 @@ function Footer() {
   return (
     <footer style={{ padding:'44px clamp(20px,6vw,80px) 28px', background:'#F5D8DC', borderTop:'1px solid rgba(196,149,106,0.1)' }}>
       <div style={{ maxWidth:1100, margin:'0 auto', display:'flex', flexDirection:'column', alignItems:'center', gap:18, textAlign:'center' }}>
-        <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:52, height:52, borderRadius:'50%', objectFit:'contain', background:'#FFFFFF', border:'1px solid rgba(192,48,58,0.18)', padding:3 }} />
+        <img src="/logo.jpg" alt="Maison Deluxe" style={{ width:44, height:44, borderRadius:'50%', objectFit:'cover', border:'1px solid rgba(192,48,58,0.18)', opacity:0.75 }} />
         <span style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'0.88rem', letterSpacing:'0.2em', ...roseText }}>MAISON DELUXE</span>
         <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.85rem', color:'rgba(61,26,30,0.7)' }}>Elevate. Express. Empower.</p>
         <div style={{ display:'flex', gap:18, flexWrap:'wrap', justifyContent:'center' }}>
