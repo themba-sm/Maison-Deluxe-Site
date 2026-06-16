@@ -775,6 +775,56 @@ function NailsShop() {
 
 /* ─── JEWELLERY SHOP ─── */
 
+function JewelleryShop() {
+  return (
+    <section id="jewellery" style={{ padding:'80px clamp(20px,6vw,80px) 100px', background:'linear-gradient(160deg,#fdf6f0 0%,#fff8f5 50%,#fdf0f3 100%)' }}>
+      <div style={{ maxWidth:1200, margin:'0 auto' }}>
+        <div style={{ textAlign:'center', marginBottom:64 }}>
+          <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.68rem', letterSpacing:'0.35em', color:'#A0444C', marginBottom:12, textTransform:'uppercase' }}>Maison Deluxe Collection</p>
+          <h2 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'clamp(1.8rem,5vw,3rem)', ...roseText }}>Jewellery</h2>
+          {dividerLine}
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'clamp(1rem,2.5vw,1.2rem)', color:'var(--text-muted)', maxWidth:580, margin:'0 auto 8px' }}>Curated pieces that complement your nails and elevate every look. Stainless steel · Waterproof · Nationwide delivery.</p>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))', gap:22 }}>
+          {JEWELLERY_PRODUCTS.map(p => (
+            <div key={p.id} style={{ background:'linear-gradient(160deg,#FFFFFF,#FDF0F3)', border:'1px solid rgba(196,149,106,0.2)', overflow:'hidden', transition:'border-color 0.3s, transform 0.3s', display:'flex', flexDirection:'column' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.5)'; e.currentTarget.style.transform='translateY(-4px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(196,149,106,0.2)'; e.currentTarget.style.transform='translateY(0)'; }}>
+              <div style={{ aspectRatio:'1/1', position:'relative', overflow:'hidden', borderBottom:'1px solid rgba(196,149,106,0.08)', background:'#FDF0F3' }}>
+                <img src={p.img} alt={p.name} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block', transition:'transform 0.6s' }} onMouseEnter={e => e.target.style.transform='scale(1.05)'} onMouseLeave={e => e.target.style.transform='scale(1)'} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:1, zIndex:2, background:'linear-gradient(90deg,transparent,rgba(196,149,106,0.3),transparent)' }} />
+                {p.metal && (
+                  <div style={{ position:'absolute', top:12, right:12, padding:'3px 10px', background:'rgba(10,10,10,0.75)', backdropFilter:'blur(6px)', border:'1px solid rgba(196,149,106,0.35)' }}>
+                    <span style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', letterSpacing:'0.18em', color:'rgba(196,149,106,0.9)', textTransform:'uppercase' }}>{p.metal}</span>
+                  </div>
+                )}
+              </div>
+              <div style={{ padding:'clamp(16px,3vw,26px)', flex:1, display:'flex', flexDirection:'column' }}>
+                <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:10 }}>
+                  {p.tags.map(t => (<span key={t} style={{ padding:'2px 9px', border:'1px solid rgba(196,149,106,0.2)', fontFamily:'Montserrat,sans-serif', fontSize:'0.48rem', letterSpacing:'0.14em', color:'#A0444C', textTransform:'uppercase' }}>{t}</span>))}
+                </div>
+                <h3 style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1rem', ...roseText, marginBottom:10 }}>{p.name}</h3>
+                <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'0.93rem', color:'rgba(61,26,30,0.68)', lineHeight:1.65, flex:1, marginBottom:16 }}>{p.desc}</p>
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:'1px solid rgba(196,149,106,0.1)' }}>
+                  <div>
+                    <p style={{ fontFamily:'Cinzel,serif', fontWeight:600, fontSize:'1.05rem', ...roseText }}>{p.price}</p>
+                    <p style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.5rem', color:'#A0444C', letterSpacing:'0.1em' }}>+ R109.99 delivery</p>
+                  </div>
+                  <a href="#order-now" style={{ padding:'10px 20px', background:roseGrad, color:'#FFFFFF', fontFamily:'Montserrat,sans-serif', fontWeight:600, fontSize:'0.6rem', letterSpacing:'0.18em', textTransform:'uppercase', border:'none', cursor:'pointer', textDecoration:'none', display:'inline-block', boxShadow:'0 4px 16px rgba(192,48,58,0.15)' }}>ORDER</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign:'center', marginTop:44, padding:'28px', border:'1px solid rgba(196,149,106,0.2)', background:'rgba(255,255,255,0.6)' }}>
+          <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'1.05rem', color:'rgba(61,26,30,0.74)', marginBottom:14 }}>See more pieces on our Instagram</p>
+          <a href="https://instagram.com/maisondeluxebyangel" target="_blank" rel="noopener noreferrer" style={{ fontFamily:'Montserrat,sans-serif', fontWeight:300, fontSize:'0.62rem', letterSpacing:'0.2em', color:'#A0444C', textDecoration:'none', textTransform:'uppercase', borderBottom:'1px solid rgba(196,149,106,0.25)', paddingBottom:2 }}>@maisondeluxebyangel</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function OrderNow() {
   const ref = useRef(null);
   const [form, setForm] = useState({ name:'', email:'', phone:'', service:'', date:'', notes:'' });
