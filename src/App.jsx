@@ -209,7 +209,7 @@ function Services() {
   const services = [
     { icon:'✦', category:'Beauty', title:'Luxe Beauty', items:['Full Face Makeup','Lash Extensions','Lash Lifts & Tints','Brow Shaping & Tinting','Waxing & Threading'], desc:'From everyday glam to bridal artistry — every look crafted with precision and premium products.', ig:'luxebeautyco___' },
     { icon:'◈', category:'Nails', title:'Signature Nails', items:['Gel Manicures','Acrylic Sets','Nail Art & Design','BIAB (Builder in a Bottle)','Pedicures & Spa Treatments'], desc:'Impeccable nails that last. Every nail treated as a canvas for your unique expression.', ig:'maisondeluxe_nails' },
-    { icon:'◇', category: title:'Fine Jewellery', items:['Curated Collections','Sterling Silver Pieces','Gold-Plated Accessories','Custom & Bespoke Pieces','Gift Curation'], desc:'Timeless pieces from delicate everyday wear to statement jewellery for life\'s special moments.', ig:'maisondeluxebyangel' },
+
   ];
   return (
     <section id="services" style={{ padding:'100px clamp(20px,6vw,80px)', background:'var(--black)' }} ref={ref}>
